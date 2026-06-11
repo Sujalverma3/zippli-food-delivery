@@ -1,0 +1,6 @@
+/* Custom CSS styling */
+@layer base {
+  body {
+    @apply bg-background text-textPrimary;
+  }
+}
