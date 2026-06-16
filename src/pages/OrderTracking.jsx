@@ -143,10 +143,39 @@ export default function OrderTracking() {
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-      // Custom Div Icons (using emojis)
-      const restIcon = L.divIcon({ html: '<div class="text-2xl drop-shadow-md">🏪</div>', className: 'bg-transparent border-0' });
-      const homeIcon = L.divIcon({ html: '<div class="text-2xl drop-shadow-md">🏠</div>', className: 'bg-transparent border-0' });
-      const bikeIcon = L.divIcon({ html: '<div class="text-2xl drop-shadow-md animate-bounce">🛵</div>', className: 'bg-transparent border-0' });
+      // Custom Div Icons (using high-fidelity SVG badges)
+      const restIcon = L.divIcon({ 
+        html: `<div class="bg-indigo-600 text-white p-2 rounded-full shadow-lg border border-white flex items-center justify-center w-10 h-10">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+        </div>`, 
+        className: 'bg-transparent border-0',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
+      });
+      const homeIcon = L.divIcon({ 
+        html: `<div class="bg-emerald-600 text-white p-2 rounded-full shadow-lg border border-white flex items-center justify-center w-10 h-10">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+        </div>`, 
+        className: 'bg-transparent border-0',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
+      });
+      const bikeIcon = L.divIcon({ 
+        html: `<div class="bg-primary text-white p-2 rounded-full shadow-lg border border-white flex items-center justify-center w-10 h-10 animate-bounce">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="5.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="2"></circle>
+            <circle cx="18.5" cy="17.5" r="2.5" stroke="currentColor" stroke-width="2"></circle>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 6a1 1 0 100-2 1 1 0 000 2zm-3.5 4.5l-2.5-3-3 2.5m10.5 4l-4.5-4.5H10L7.5 15h3l1.5-3 2.5 3h3.5"></path>
+          </svg>
+        </div>`, 
+        className: 'bg-transparent border-0',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40]
+      });
 
       // Add markers
       L.marker([restLat, restLng], { icon: restIcon }).addTo(map).bindPopup('Restaurant Store');
@@ -228,8 +257,11 @@ export default function OrderTracking() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 md:px-8 py-6">
-      <Link to="/" className="text-primary hover:text-orange-600 font-bold mb-6 inline-block transition-all text-xs">
-        ← Back to Customer App
+      <Link to="/" className="text-primary hover:text-orange-655 font-bold mb-6 flex items-center space-x-1.5 transition-all text-xs">
+        <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>Back to Customer App</span>
       </Link>
       {/* Upper Tracker Summary */}
       <div className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 animate-fade-in">
@@ -240,8 +272,9 @@ export default function OrderTracking() {
             Restaurant: <span className="font-bold text-textPrimary">{order.restaurant}</span>
           </p>
           {order.deliveryInstructions && (
-            <p className="text-[10px] text-primary italic mt-1 bg-orange-50 border border-orange-100 px-2 py-0.5 rounded inline-block">
-              💬 Instructions: "{order.deliveryInstructions}"
+            <p className="text-[10px] text-primary italic mt-1 bg-orange-50 border border-orange-100 px-2.5 py-1 rounded inline-flex items-center">
+              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              <span>Instructions: "{order.deliveryInstructions}"</span>
             </p>
           )}
         </div>
@@ -269,9 +302,12 @@ export default function OrderTracking() {
         )}
 
         {order.status === 'delivered' && (
-          <div className="text-center md:text-right bg-green-50 border border-green-100 p-4 rounded-2xl min-w-[160px] shadow-sm">
+          <div className="text-center md:text-right bg-green-50 border border-green-100 p-4 rounded-2xl min-w-[160px] shadow-sm flex flex-col items-center md:items-end justify-center">
             <span className="text-xs font-bold text-success uppercase block">Status</span>
-            <span className="text-2xl font-extrabold text-success block mt-1">Delivered 🎉</span>
+            <span className="text-xl font-extrabold text-success mt-1 flex items-center space-x-1">
+              <svg className="w-5 h-5 text-success inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Delivered</span>
+            </span>
           </div>
         )}
       </div>
@@ -297,8 +333,10 @@ export default function OrderTracking() {
             <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-6">Delivery Timeline</h2>
             
             {order.status === 'cancelled' ? (
-              <div className="text-center py-6">
-                <span className="text-5xl">🚫</span>
+              <div className="text-center py-6 flex flex-col items-center justify-center">
+                <svg className="w-12 h-12 text-red-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                </svg>
                 <h3 className="text-base font-bold text-textPrimary mt-4">Order Cancelled</h3>
                 <p className="text-xs text-textMuted mt-1">This order was cancelled. Please check your payment refund status or re-order.</p>
               </div>
@@ -348,9 +386,15 @@ export default function OrderTracking() {
               
               {rated ? (
                 <div className="text-center py-4 space-y-2">
-                  <div className="text-2xl text-yellow-400">
+                  <div className="flex justify-center space-x-1 text-2xl text-yellow-400">
                     {Array.from({ length: 5 }, (_, i) => (
-                      <span key={i}>{i < rating ? '★' : '☆'}</span>
+                      <span key={i}>
+                        {i < rating ? (
+                          <svg className="w-6 h-6 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        ) : (
+                          <svg className="w-6 h-6 text-gray-200 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
+                        )}
+                      </span>
                     ))}
                   </div>
                   <p className="text-xs text-textPrimary font-bold">You rated this: {rating} Stars</p>
@@ -360,17 +404,19 @@ export default function OrderTracking() {
                 <form onSubmit={handleRatingSubmit} className="space-y-4">
                   <div className="text-center">
                     <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-2">Tap to Rate</label>
-                    <div className="flex justify-center space-x-2 text-3xl">
+                    <div className="flex justify-center space-x-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
                           onClick={() => setRating(star)}
-                          className={`hover:scale-110 active:scale-95 transition-transform ${
-                            star <= rating ? 'text-yellow-400' : 'text-gray-200'
-                          }`}
+                          className={`hover:scale-110 active:scale-95 transition-transform`}
                         >
-                          ★
+                          {star <= rating ? (
+                            <svg className="w-8 h-8 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                          ) : (
+                            <svg className="w-8 h-8 text-gray-200 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
+                          )}
                         </button>
                       ))}
                     </div>

@@ -85,7 +85,11 @@ async function seedDefaultUsers() {
 }
 
 // Run seeding
-seedDefaultUsers();
+if (mongoose.connection.readyState === 1) {
+  seedDefaultUsers();
+} else {
+  mongoose.connection.once('open', seedDefaultUsers);
+}
 
 // Middleware to verify JWT token
 export function authenticateToken(req, res, next) {
@@ -104,7 +108,11 @@ export function authenticateToken(req, res, next) {
 // Register Route
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, phone, password, role, restaurantId } = req.body;
+    const { name, email, phone, password, role, restaurantId, documents } = req.body;
+
+    if (role === 'admin') {
+      return res.status(400).json({ error: 'Registration of admin accounts is not allowed.' });
+    }
 
     if (!name || !email || !phone || !password) {
       return res.status(400).json({ error: 'All fields are required' });
@@ -121,6 +129,9 @@ router.post('/register', async (req, res) => {
 
     const lowerEmail = email.toLowerCase();
 
+    const isPartner = role === 'restaurant' || role === 'delivery';
+    const statusVal = isPartner ? 'pending' : 'active';
+
     // Check if user exists
     if (mongoose.connection.readyState === 1) {
       const exists = await User.findOne({ email: lowerEmail });
@@ -133,10 +144,19 @@ router.post('/register', async (req, res) => {
         password,
         role: role || 'customer',
         restaurantId: role === 'restaurant' ? restaurantId : '',
-        status: 'active'
+        status: statusVal,
+        documents: documents || {}
       });
 
       await user.save();
+      
+      if (isPartner) {
+        return res.status(201).json({
+          pending: true,
+          message: 'Registration successful! Your partner account is pending admin verification.'
+        });
+      }
+
       const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
       
       const userObj = user.toObject();
@@ -159,12 +179,21 @@ router.post('/register', async (req, res) => {
         role: role || 'customer',
         restaurantId: role === 'restaurant' ? restaurantId : '',
         addresses: [],
-        status: 'active',
+        status: statusVal,
+        documents: documents || {},
         createdAt: new Date(),
         updatedAt: new Date()
       };
 
       memoryUsers.push(user);
+      
+      if (isPartner) {
+        return res.status(201).json({
+          pending: true,
+          message: 'Registration successful! Your partner account is pending admin verification.'
+        });
+      }
+
       const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
       
       const userObj = { ...user };
@@ -190,6 +219,10 @@ router.post('/login', async (req, res) => {
       const user = await User.findOne({ email: lowerEmail });
       if (!user) return res.status(400).json({ error: 'Invalid email or password' });
 
+      if (user.status === 'pending') {
+        return res.status(403).json({ error: 'Your partner account is pending admin verification.' });
+      }
+
       if (user.status === 'suspended') {
         return res.status(403).json({ error: 'Your account has been suspended' });
       }
@@ -204,6 +237,10 @@ router.post('/login', async (req, res) => {
     } else {
       const user = memoryUsers.find(u => u.email === lowerEmail);
       if (!user) return res.status(400).json({ error: 'Invalid email or password' });
+
+      if (user.status === 'pending') {
+        return res.status(403).json({ error: 'Your partner account is pending admin verification.' });
+      }
 
       if (user.status === 'suspended') {
         return res.status(403).json({ error: 'Your account has been suspended' });

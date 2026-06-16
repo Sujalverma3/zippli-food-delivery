@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 export default function LoginPage() {
-  const { login, register } = useAuth();
+  const { login, register, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,9 +27,25 @@ export default function LoginPage() {
     try {
       if (isRegister) {
         const user = await register(name, email, phone, password, role, role === 'restaurant' ? restaurantId : '');
+        if (user.role !== 'customer') {
+          logout();
+          toast.error("Partners must register via the Partner Portal. Redirecting...");
+          setTimeout(() => {
+            window.location.href = '/partner.html';
+          }, 2000);
+          return;
+        }
         redirectAfterLogin(user.role);
       } else {
         const user = await login(email, password);
+        if (user.role !== 'customer') {
+          logout();
+          toast.error("Partner accounts cannot log in here. Redirecting to Partner Portal...");
+          setTimeout(() => {
+            window.location.href = '/partner.html';
+          }, 2000);
+          return;
+        }
         redirectAfterLogin(user.role);
       }
     } catch (err) {
@@ -45,30 +62,15 @@ export default function LoginPage() {
     else navigate(redirectPath);
   };
 
-  const fillMockCredentials = (roleType) => {
-    if (roleType === 'customer') {
-      setEmail('customer@zippli.com');
-      setPassword('password123');
-      setIsRegister(false);
-    } else if (roleType === 'vendor') {
-      setEmail('vendor@zippli.com');
-      setPassword('password123');
-      setIsRegister(false);
-    } else if (roleType === 'delivery') {
-      setEmail('delivery@zippli.com');
-      setPassword('password123');
-      setIsRegister(false);
-    } else if (roleType === 'admin') {
-      setEmail('admin@zippli.com');
-      setPassword('password123');
-      setIsRegister(false);
-    }
-  };
+
 
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12 bg-gradient-to-br from-orange-50 via-background to-gray-100">
-      <Link to="/" className="text-primary hover:text-orange-650 font-bold mb-6 flex items-center space-x-1.5 transition-all text-xs">
-        <span>←</span> <span>Back to Customer Storefront</span>
+      <Link to="/" className="text-primary hover:text-orange-600 font-bold mb-6 flex items-center space-x-1.5 transition-all text-xs">
+        <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        <span>Back to Customer Storefront</span>
       </Link>
       <div className="w-full max-w-md bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden transform transition-all duration-300 hover:shadow-xl">
         {/* Banner */}
@@ -85,19 +87,25 @@ export default function LoginPage() {
         <div className="flex border-b border-gray-100 bg-gray-50">
           <button
             onClick={() => setIsRegister(false)}
-            className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 ${
+            className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 flex items-center justify-center ${
               !isRegister ? 'border-primary text-primary bg-white' : 'border-transparent text-textMuted hover:text-textPrimary'
             }`}
           >
-            🔑 Log In
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+            </svg>
+            Log In
           </button>
           <button
             onClick={() => setIsRegister(true)}
-            className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 ${
+            className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 flex items-center justify-center ${
               isRegister ? 'border-primary text-primary bg-white' : 'border-transparent text-textMuted hover:text-textPrimary'
             }`}
           >
-            ✨ Sign Up
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
+            Sign Up
           </button>
         </div>
 
@@ -113,7 +121,7 @@ export default function LoginPage() {
                   placeholder="Enter your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
                 />
               </div>
               <div>
@@ -124,7 +132,7 @@ export default function LoginPage() {
                   placeholder="e.g. +91 98765 43210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
+                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
                 />
               </div>
             </>
@@ -138,7 +146,7 @@ export default function LoginPage() {
               placeholder="name@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
+              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
             />
           </div>
 
@@ -150,46 +158,9 @@ export default function LoginPage() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
+              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
             />
           </div>
-
-          {isRegister && (
-            <div className="grid grid-cols-1 gap-4 pt-1">
-              <div>
-                <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Account Type (Role)</label>
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
-                >
-                  <option value="customer">Customer (Order Food)</option>
-                  <option value="restaurant">Restaurant Partner (Vendor Panel)</option>
-                  <option value="delivery">Delivery Partner (Rider App)</option>
-                  <option value="admin">Administrator (Full Control)</option>
-                </select>
-              </div>
-
-              {role === 'restaurant' && (
-                <div>
-                  <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Select Restaurant</label>
-                  <select
-                    value={restaurantId}
-                    onChange={(e) => setRestaurantId(e.target.value)}
-                    className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:outline-none transition-all"
-                  >
-                    <option value="r1">Pizza Palazzo (r1)</option>
-                    <option value="r2">Burger Bistro (r2)</option>
-                    <option value="r3">Biryani Darbar (r3)</option>
-                    <option value="r4">Sushi Sakura (r4)</option>
-                    <option value="r5">The Healthy Bowl (r5)</option>
-                    <option value="r6">Wok N Roll (r6)</option>
-                  </select>
-                  <p className="text-[10px] text-textMuted mt-1">Associate this login with an existing storefront.</p>
-                </div>
-              )}
-            </div>
-          )}
 
           {/* Submit Button */}
           <button
@@ -198,43 +169,34 @@ export default function LoginPage() {
             className="w-full bg-primary hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all duration-200 transform active:scale-[0.98] disabled:opacity-50 flex justify-center items-center space-x-2 text-sm mt-3"
           >
             {loading ? (
-              <><span className="animate-spin">⏳</span><span>Processing...</span></>
+              <>
+                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Processing...</span>
+              </>
             ) : (
-              <><span>{isRegister ? '🚀 Create Account' : '🔑 Log In'}</span></>
+              <span className="flex items-center justify-center space-x-1.5">
+                {isRegister ? (
+                  <>
+                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                    <span>Create Account</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span>Log In</span>
+                  </>
+                )}
+              </span>
             )}
           </button>
         </form>
-
-        {/* Demo Fast Login Ribbon */}
-        <div className="px-8 pb-8 pt-2 border-t border-gray-100 bg-gray-50">
-          <h4 className="text-[10px] font-bold text-textMuted uppercase tracking-wider mb-2.5 text-center">Fast-Track Demo Credentials</h4>
-          <div className="grid grid-cols-2 gap-2 text-[11px]">
-            <button
-              onClick={() => fillMockCredentials('customer')}
-              className="bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg py-1.5 font-bold transition-all"
-            >
-              🧑‍💻 Customer
-            </button>
-            <button
-              onClick={() => fillMockCredentials('vendor')}
-              className="bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg py-1.5 font-bold transition-all"
-            >
-              🍽️ Restaurant
-            </button>
-            <button
-              onClick={() => fillMockCredentials('delivery')}
-              className="bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg py-1.5 font-bold transition-all"
-            >
-              🛵 Delivery
-            </button>
-            <button
-              onClick={() => fillMockCredentials('admin')}
-              className="bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-lg py-1.5 font-bold transition-all"
-            >
-              ⚙️ Admin
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

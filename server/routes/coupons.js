@@ -41,7 +41,11 @@ async function seedDefaultCoupons() {
   }
 }
 
-seedDefaultCoupons();
+if (mongoose.connection.readyState === 1) {
+  seedDefaultCoupons();
+} else {
+  mongoose.connection.once('open', seedDefaultCoupons);
+}
 
 // GET all coupons
 router.get('/', async (req, res) => {

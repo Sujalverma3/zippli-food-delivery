@@ -5,18 +5,13 @@ import { CartProvider } from './context/CartContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
-import RoleSwitcher from './components/RoleSwitcher.jsx';
-
 // Pages
 import HomePage from './pages/HomePage.jsx';
 import RestaurantPage from './pages/RestaurantPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 import OrderTracking from './pages/OrderTracking.jsx';
-import Dashboard from './pages/Dashboard.jsx'; // Admin Dashboard
 import LoginPage from './pages/LoginPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
-import VendorDashboard from './pages/VendorDashboard.jsx';
-import DeliveryDashboard from './pages/DeliveryDashboard.jsx';
 
 function App() {
   return (
@@ -31,15 +26,11 @@ function App() {
                 <Route path="/restaurant/:id" element={<RestaurantPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/track/:orderId" element={<OrderTracking />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-                <Route path="/delivery/dashboard" element={<DeliveryDashboard />} />
               </Routes>
             </main>
             <Footer />
-            <RoleSwitcher />
             <Toaster position="top-center" reverseOrder={false} />
           </div>
         </CartProvider>

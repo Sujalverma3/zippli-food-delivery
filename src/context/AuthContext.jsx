@@ -10,6 +10,15 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [userLocation, setUserLocation] = useState(() => {
+    const saved = localStorage.getItem('zippli_location');
+    return saved ? JSON.parse(saved) : { lat: 28.6304, lng: 77.2177, addressLabel: 'Connaught Place', addressFullName: '12, Connaught Place, New Delhi' };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('zippli_location', JSON.stringify(userLocation));
+  }, [userLocation]);
+
   // Hook up Authorization headers and verify token on startup
   useEffect(() => {
     const checkAuth = async () => {
@@ -48,9 +57,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, email, phone, password, role, restaurantId) => {
+  const register = async (name, email, phone, password, role, restaurantId, documents) => {
     try {
-      const res = await axios.post('/api/auth/register', { name, email, phone, password, role, restaurantId });
+      const res = await axios.post('/api/auth/register', { name, email, phone, password, role, restaurantId, documents });
+      
+      if (res.data.pending) {
+        toast.success(res.data.message, { duration: 6000 });
+        return res.data;
+      }
+
       const { token, user } = res.data;
       
       localStorage.setItem('zippli_token', token);
@@ -106,7 +121,9 @@ export const AuthProvider = ({ children }) => {
     logout,
     addAddress,
     deleteAddress,
-    setCurrentUser
+    setCurrentUser,
+    userLocation,
+    setUserLocation
   };
 
   return (

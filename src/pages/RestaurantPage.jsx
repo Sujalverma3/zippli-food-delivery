@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCart } from '../context/CartContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
+import { getHaversineDistance } from '../utils/distance.js';
 import { toast } from 'react-hot-toast';
 import MapView from '../components/MapView.jsx';
 
 export default function RestaurantPage() {
   const { id } = useParams();
+  const { userLocation } = useAuth();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('menu');
@@ -46,15 +49,17 @@ export default function RestaurantPage() {
 
   if (!restaurant) {
     return (
-      <div className="text-center py-20 max-w-md mx-auto">
-        <span className="text-6xl block mb-4">😔</span>
+      <div className="text-center py-20 max-w-md mx-auto flex flex-col items-center">
+        <svg className="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
         <h2 className="text-2xl font-bold text-textPrimary">Restaurant not found</h2>
         <Link to="/" className="text-primary mt-4 inline-block font-semibold hover:underline">← Go Back Home</Link>
       </div>
     );
   }
 
-  const { menu } = restaurant;
+  const menu = restaurant.menu || {};
   const deliveryFee = cartTotal > 0 ? (cartTotal >= 299 ? 0 : 30) : 0;
   const gst = cartTotal * 0.05;
   const grandTotal = cartTotal + deliveryFee + gst;
@@ -147,16 +152,69 @@ export default function RestaurantPage() {
     ? (restaurant.reviews.reduce((sum, r) => sum + r.rating, 0) / restaurant.reviews.length).toFixed(1)
     : restaurant.rating;
 
+  const distanceStr = restaurant
+    ? getHaversineDistance(userLocation?.lat, userLocation?.lng, restaurant.lat, restaurant.lng)
+    : null;
+
   const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={`text-sm ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>★</span>
-    ));
+    return (
+      <div className="flex items-center space-x-0.5">
+        {Array.from({ length: 5 }, (_, i) => (
+          <svg key={i} className={`w-3.5 h-3.5 ${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-350 fill-gray-200'}`} viewBox="0 0 20 20" fill="currentColor">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+      </div>
+    );
+  };
+
+  const getCategoryIcon = (category) => {
+    switch (category.toLowerCase()) {
+      case 'starters':
+        return (
+          <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M14 12a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        );
+      case 'mains':
+        return (
+          <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41m12.72-12.72l-1.41 1.41" />
+          </svg>
+        );
+      case 'desserts':
+        return (
+          <svg className="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zm0 0h4m-4 0H8m12 3v10a2 2 0 01-2 2H6a2 2 0 01-2-2V11h16z" />
+          </svg>
+        );
+      default:
+        return (
+          <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        );
+    }
   };
 
   const tabs = [
-    { id: 'menu', label: '🍽️ Menu', count: Object.values(menu).flat().length },
-    { id: 'reviews', label: '⭐ Reviews', count: restaurant.reviews?.length || 0 },
-    { id: 'location', label: '📍 Location' },
+    { 
+      id: 'menu', 
+      label: 'Menu', 
+      count: Object.values(menu).flat().length,
+      icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+    },
+    { 
+      id: 'reviews', 
+      label: 'Reviews', 
+      count: restaurant.reviews?.length || 0,
+      icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+    },
+    { 
+      id: 'location', 
+      label: 'Location',
+      icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+    },
   ];
 
   return (
@@ -206,8 +264,10 @@ export default function RestaurantPage() {
             </div>
 
             <div className="flex items-center gap-3 text-xs font-semibold bg-white bg-opacity-15 backdrop-blur-md p-4 rounded-2xl border border-white border-opacity-10 shrink-0">
-              <div className="flex items-center text-yellow-300 gap-1">
-                <span>⭐</span>
+              <div className="flex items-center text-yellow-300 gap-1.5">
+                <svg className="w-4 h-4 text-yellow-350 fill-yellow-350 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
                 <span className="font-bold text-base">{avgRating}</span>
               </div>
               <div className="w-px h-6 bg-white bg-opacity-30"></div>
@@ -226,15 +286,51 @@ export default function RestaurantPage() {
       </div>
 
       {/* Info Cards Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         {[
-          { icon: '⭐', label: 'Rating', value: `${avgRating} / 5`, color: 'text-yellow-500', bg: 'bg-yellow-50' },
-          { icon: '⏱️', label: 'Delivery Time', value: restaurant.deliveryTime, color: 'text-blue-500', bg: 'bg-blue-50' },
-          { icon: '📞', label: 'Phone', value: restaurant.phone || 'N/A', color: 'text-green-500', bg: 'bg-green-50' },
-          { icon: '🕐', label: 'Hours', value: restaurant.openingHours || 'All Day', color: 'text-purple-500', bg: 'bg-purple-50' },
-        ].map((card, idx) => (
+          { 
+            icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>, 
+            label: 'Rating', 
+            value: `${avgRating} / 5`, 
+            color: 'text-yellow-500', 
+            bg: 'bg-yellow-50' 
+          },
+          { 
+            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
+            label: 'Delivery Time', 
+            value: restaurant.deliveryTime, 
+            color: 'text-blue-500', 
+            bg: 'bg-blue-50' 
+          },
+          distanceStr ? { 
+            icon: (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            ), 
+            label: 'Distance', 
+            value: distanceStr, 
+            color: 'text-orange-500', 
+            bg: 'bg-orange-50' 
+          } : null,
+          { 
+            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>, 
+            label: 'Phone', 
+            value: restaurant.phone || 'N/A', 
+            color: 'text-green-500', 
+            bg: 'bg-green-50' 
+          },
+          { 
+            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
+            label: 'Hours', 
+            value: restaurant.openingHours || 'All Day', 
+            color: 'text-purple-500', 
+            bg: 'bg-purple-50' 
+          },
+        ].filter(Boolean).map((card, idx) => (
           <div key={idx} className="bg-white rounded-xl p-4 shadow-card border border-gray-100 flex items-center space-x-3">
-            <div className={`w-10 h-10 rounded-lg ${card.bg} flex items-center justify-center text-lg shrink-0`}>{card.icon}</div>
+            <div className={`w-10 h-10 rounded-lg ${card.bg} flex items-center justify-center ${card.color} shrink-0`}>{card.icon}</div>
             <div className="min-w-0">
               <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider block">{card.label}</span>
               <span className="text-xs font-bold text-textPrimary truncate block">{card.value}</span>
@@ -271,66 +367,74 @@ export default function RestaurantPage() {
         <div className="lg:col-span-2 space-y-6">
           {activeTab === 'menu' && (
             <div className="space-y-6">
-              {Object.entries(menu).map(([category, items]) => {
-                if (!items || items.length === 0) return null;
-                const categoryEmoji = category === 'starters' ? '🥗' : category === 'mains' ? '🍛' : '🍰';
-                const isCustomizable = category === 'mains';
-                
-                return (
-                  <div key={category} className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-                    <h2 className="text-lg font-extrabold text-textPrimary capitalize border-b border-gray-100 pb-3 mb-4 flex items-center justify-between">
-                      <span className="flex items-center space-x-2">
-                        <span>{categoryEmoji}</span>
-                        <span>{category}</span>
-                      </span>
-                      <span className="text-xs bg-gray-100 text-textMuted px-2.5 py-1 rounded-full font-medium">{items.length} Items</span>
-                    </h2>
-                    <div className="divide-y divide-gray-100">
-                      {items.map((item) => {
-                        const qty = getBaseQty(item.id);
-                        return (
-                          <div key={item.id} className="py-5 first:pt-0 last:pb-0 flex justify-between items-start gap-4">
-                            <div className="flex-grow">
-                              <h3 className="text-base font-bold text-textPrimary flex items-center space-x-2">
-                                <span>{item.name}</span>
-                                {isCustomizable && (
-                                  <span className="text-[9px] bg-orange-50 text-primary border border-orange-100 px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wide">
-                                    Customizable
-                                  </span>
-                                )}
-                              </h3>
-                              <p className="text-sm font-extrabold text-primary mt-1">₹{item.price}</p>
-                              <p className="text-xs text-textMuted mt-1.5 leading-relaxed pr-4">{item.description}</p>
-                            </div>
-                            <div className="flex-shrink-0 flex flex-col items-center space-y-2">
-                              <div className="w-24 h-20 rounded-xl overflow-hidden shadow-inner relative flex-shrink-0 bg-gray-150 border border-gray-100 flex items-center justify-center">
-                                <img
-                                  src={item.image || (category === 'starters' ? '/images/healthy.png' : category === 'desserts' ? '/images/desserts.png' : restaurant.image)}
-                                  alt={item.name}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    e.target.style.display = 'none';
-                                    e.target.parentElement.innerHTML = `<span class="text-2xl">${categoryEmoji}</span>`;
-                                    e.target.parentElement.className += ` bg-gradient-to-br ${restaurant.gradient} bg-opacity-20`;
-                                  }}
-                                />
+              {Object.keys(menu).length === 0 || Object.values(menu).flat().length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-3xl border border-gray-150 shadow-sm flex flex-col items-center">
+                  <svg className="w-12 h-12 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                  <h3 className="text-sm font-bold text-textPrimary">No Menu Items Available</h3>
+                  <p className="text-textMuted text-xs mt-1 font-medium">This restaurant hasn't uploaded any dishes to their menu yet.</p>
+                </div>
+              ) : (
+                Object.entries(menu).map(([category, items]) => {
+                  if (!items || items.length === 0) return null;
+                  const isCustomizable = category === 'mains';
+                  
+                  return (
+                    <div key={category} className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
+                      <h2 className="text-lg font-extrabold text-textPrimary capitalize border-b border-gray-100 pb-3 mb-4 flex items-center justify-between">
+                        <span className="flex items-center space-x-2.5">
+                          {getCategoryIcon(category)}
+                          <span>{category}</span>
+                        </span>
+                        <span className="text-xs bg-gray-100 text-textMuted px-2.5 py-1 rounded-full font-medium">{items.length} Items</span>
+                      </h2>
+                      <div className="divide-y divide-gray-100">
+                        {items.map((item) => {
+                          const qty = getBaseQty(item.id);
+                          return (
+                            <div key={item.id} className="py-5 first:pt-0 last:pb-0 flex justify-between items-start gap-4">
+                              <div className="flex-grow">
+                                <h3 className="text-base font-bold text-textPrimary flex items-center space-x-2">
+                                  <span>{item.name}</span>
+                                  {isCustomizable && (
+                                    <span className="text-[9px] bg-orange-50 text-primary border border-orange-100 px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wide">
+                                      Customizable
+                                    </span>
+                                  )}
+                                </h3>
+                                <p className="text-sm font-extrabold text-primary mt-1">₹{item.price}</p>
+                                <p className="text-xs text-textMuted mt-1.5 leading-relaxed pr-4">{item.description}</p>
                               </div>
-                              
-                              <button 
-                                onClick={() => handleAddItemClick(item, isCustomizable)} 
-                                className="bg-white hover:bg-orange-50 text-primary border border-gray-200 hover:border-primary px-5 py-1.5 rounded-lg text-xs font-extrabold shadow-sm transition-all transform active:scale-95 flex items-center space-x-1"
-                              >
-                                <span>+ ADD</span>
-                                {qty > 0 && <span className="bg-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">{qty}</span>}
-                              </button>
+                              <div className="flex-shrink-0 flex flex-col items-center space-y-2">
+                                <div className="w-24 h-20 rounded-xl overflow-hidden shadow-inner relative flex-shrink-0 bg-gray-150 border border-gray-100 flex items-center justify-center">
+                                  <img
+                                    src={item.image || (category === 'starters' ? '/images/healthy.png' : category === 'desserts' ? '/images/desserts.png' : restaurant.image)}
+                                    alt={item.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                      e.target.style.display = 'none';
+                                      e.target.parentElement.innerHTML = `<div class="text-primary flex items-center justify-center w-full h-full bg-orange-50 bg-opacity-40"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>`;
+                                    }}
+                                  />
+                                </div>
+                                
+                                <button 
+                                  onClick={() => handleAddItemClick(item, isCustomizable)} 
+                                  className="bg-white hover:bg-orange-50 text-primary border border-gray-200 hover:border-primary px-5 py-1.5 rounded-lg text-xs font-extrabold shadow-sm transition-all transform active:scale-95 flex items-center space-x-1"
+                                >
+                                  <span>+ ADD</span>
+                                  {qty > 0 && <span className="bg-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">{qty}</span>}
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           )}
 
@@ -386,8 +490,10 @@ export default function RestaurantPage() {
               ))}
 
               {(!restaurant.reviews || restaurant.reviews.length === 0) && (
-                <div className="text-center py-12 bg-white rounded-2xl shadow-card border border-gray-100">
-                  <span className="text-4xl block mb-3">📝</span>
+                <div className="text-center py-12 bg-white rounded-2xl shadow-card border border-gray-100 flex flex-col items-center">
+                  <svg className="w-12 h-12 text-slate-300 mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
                   <h3 className="text-base font-bold text-textPrimary">No Reviews Yet</h3>
                   <p className="text-xs text-textMuted mt-1">Be the first to review this restaurant!</p>
                 </div>
@@ -399,28 +505,37 @@ export default function RestaurantPage() {
           {activeTab === 'location' && (
             <div className="space-y-6">
               <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-                <h3 className="text-lg font-extrabold text-textPrimary mb-4 flex items-center space-x-2">
-                  <span>📍</span><span>Restaurant Location</span>
+                <h3 className="text-lg font-extrabold text-textPrimary mb-4 flex items-center space-x-2.5">
+                  <svg className="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>Restaurant Location</span>
                 </h3>
                 <MapView lat={restaurant.lat} lng={restaurant.lng} height="350px" />
                 <div className="mt-6 space-y-4">
-                  <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-xl">
-                    <span className="text-primary text-lg mt-0.5">🏠</span>
+                  <div className="flex items-start space-x-3.5 p-3.5 bg-gray-50 rounded-xl">
+                    <svg className="w-5 h-5 text-primary shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
                     <div>
                       <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider block">Address</span>
                       <span className="text-sm font-semibold text-textPrimary">{restaurant.address || 'Address not available'}</span>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                      <span className="text-primary text-lg">📞</span>
+                    <div className="flex items-center space-x-3.5 p-3.5 bg-gray-50 rounded-xl">
+                      <svg className="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
                       <div>
                         <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider block">Phone</span>
                         <span className="text-sm font-semibold text-textPrimary">{restaurant.phone || 'N/A'}</span>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl">
-                      <span className="text-primary text-lg">🕐</span>
+                    <div className="flex items-center space-x-3.5 p-3.5 bg-gray-50 rounded-xl">
+                      <svg className="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
                       <div>
                         <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider block">Hours</span>
                         <span className="text-sm font-semibold text-textPrimary">{restaurant.openingHours || 'All Day'}</span>
@@ -436,15 +551,20 @@ export default function RestaurantPage() {
         {/* Sticky Cart Summary */}
         <div className="lg:col-span-1 lg:sticky lg:top-24">
           <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-lg font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2">
-              <span>🛒</span><span>Cart Summary</span>
+            <h2 className="text-lg font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2.5">
+              <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span>Cart Summary</span>
             </h2>
 
             {localCartItems.length === 0 ? (
-              <div className="text-center py-8">
-                <div className="text-4xl animate-bounce">🛒</div>
+              <div className="text-center py-8 flex flex-col items-center">
+                <svg className="w-10 h-10 text-slate-300 animate-bounce mb-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
                 <h3 className="text-sm font-bold text-textPrimary mt-3">Your Cart is Empty</h3>
-                <p className="text-xs text-textMuted mt-1">Add items from the menu to start order</p>
+                <p className="text-xs text-textMuted mt-1 font-medium">Add items from the menu to start order</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -493,9 +613,12 @@ export default function RestaurantPage() {
 
                 <Link
                   to="/cart"
-                  className="w-full bg-primary hover:bg-orange-600 text-white text-center block py-3 rounded-xl text-sm font-bold shadow-md transition-all transform active:scale-95 duration-200"
+                  className="w-full bg-primary hover:bg-orange-600 text-white text-center flex items-center justify-center space-x-1.5 py-3 rounded-xl text-sm font-bold shadow-md transition-all transform active:scale-95 duration-200"
                 >
-                  Proceed to Checkout 🚀
+                  <span>Proceed to Checkout</span>
+                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </Link>
               </div>
             )}
@@ -551,20 +674,22 @@ export default function RestaurantPage() {
 
               {/* Spice Level */}
               <div className="space-y-2.5">
-                <h4 className="font-bold text-textPrimary uppercase tracking-wider text-[10px] text-textMuted">Select Spice Level</h4>
+                <h4 className="font-bold text-textPrimary uppercase tracking-wider text-[10px] text-textMuted font-sans">Select Spice Level</h4>
                 <div className="grid grid-cols-3 gap-2.5">
                   {['Mild', 'Medium', 'Hot'].map(spice => (
                     <button
                       key={spice}
                       type="button"
                       onClick={() => setSelectedSpice(spice)}
-                      className={`border rounded-xl p-3 font-bold text-center transition-all ${
+                      className={`border rounded-xl p-3 font-bold text-center transition-all flex flex-col items-center justify-center ${
                         selectedSpice === spice 
                           ? 'border-primary bg-orange-50 text-primary' 
                           : 'border-gray-200 hover:border-primary text-textMuted hover:text-primary'
                       }`}
                     >
-                      <span>{spice === 'Mild' ? '🟢' : spice === 'Medium' ? '🟡' : '🔴'}</span>
+                      <span className={`w-3 h-3 rounded-full mb-1 ${
+                        spice === 'Mild' ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50' : spice === 'Medium' ? 'bg-amber-500 shadow-sm shadow-amber-500/50' : 'bg-rose-500 shadow-sm shadow-rose-500/50'
+                      }`} />
                       <div className="mt-1 font-semibold">{spice}</div>
                     </button>
                   ))}
@@ -585,7 +710,7 @@ export default function RestaurantPage() {
                         onChange={() => setExtraCheese(!extraCheese)}
                         className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4"
                       />
-                      <span className="font-bold text-textPrimary">Extra Cheese 🧀</span>
+                      <span className="font-bold text-textPrimary">Extra Cheese</span>
                     </div>
                     <span className="font-extrabold text-primary">+₹30</span>
                   </label>
@@ -599,7 +724,7 @@ export default function RestaurantPage() {
                         onChange={() => setExtraToppings(!extraToppings)}
                         className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4"
                       />
-                      <span className="font-bold text-textPrimary">Fresh Veggie Toppings 🥦</span>
+                      <span className="font-bold text-textPrimary">Fresh Veggie Toppings</span>
                     </div>
                     <span className="font-extrabold text-primary">+₹20</span>
                   </label>
@@ -619,9 +744,12 @@ export default function RestaurantPage() {
               </div>
               <button
                 onClick={submitCustomization}
-                className="bg-primary hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-all transform active:scale-95 flex items-center space-x-2 text-xs"
+                className="bg-primary hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-xl shadow-md transition-all transform active:scale-95 flex items-center justify-center space-x-1.5 text-xs"
               >
-                <span>🚀 Add Customization</span>
+                <span>Add Customization</span>
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
               </button>
             </div>
 

@@ -57,8 +57,15 @@ const userSchema = new mongoose.Schema({
   addresses: [addressSchema],
   status: {
     type: String,
-    enum: ['active', 'suspended'],
+    enum: ['active', 'suspended', 'pending'],
     default: 'active'
+  },
+  documents: {
+    fssai: { type: String, default: '' },
+    gstin: { type: String, default: '' },
+    drivingLicense: { type: String, default: '' },
+    aadhaarCard: { type: String, default: '' },
+    vehicleType: { type: String, default: '' }
   }
 }, {
   timestamps: true
