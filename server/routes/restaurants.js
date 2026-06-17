@@ -32,10 +32,11 @@ async function seedDefaultRestaurants() {
   }
 }
 
-// Trigger seeding when connected or immediately if already connected
-if (mongoose.connection.readyState === 1) {
-  seedDefaultRestaurants();
-} else {
+// Trigger seeding immediately for in-memory fallback
+seedDefaultRestaurants();
+
+// Also listen for MongoDB connection to seed the database
+if (mongoose.connection.readyState !== 1) {
   mongoose.connection.once('open', seedDefaultRestaurants);
 }
 

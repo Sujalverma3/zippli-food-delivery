@@ -15,15 +15,17 @@ const defaultCoupons = [
 async function seedDefaultCoupons() {
   try {
     // In memory
-    defaultCoupons.forEach(dc => {
-      memoryCoupons.push({
-        _id: new mongoose.Types.ObjectId().toString(),
-        ...dc,
-        expiry: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-        createdAt: new Date(),
-        updatedAt: new Date()
+    if (memoryCoupons.length === 0) {
+      defaultCoupons.forEach(dc => {
+        memoryCoupons.push({
+          _id: new mongoose.Types.ObjectId().toString(),
+          ...dc,
+          expiry: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
       });
-    });
+    }
 
     // DB if connected
     if (mongoose.connection.readyState === 1) {
@@ -41,9 +43,11 @@ async function seedDefaultCoupons() {
   }
 }
 
-if (mongoose.connection.readyState === 1) {
-  seedDefaultCoupons();
-} else {
+// Trigger seeding immediately for in-memory fallback
+seedDefaultCoupons();
+
+// Also listen for MongoDB connection to seed the database
+if (mongoose.connection.readyState !== 1) {
   mongoose.connection.once('open', seedDefaultCoupons);
 }
 

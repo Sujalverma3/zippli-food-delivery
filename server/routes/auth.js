@@ -57,15 +57,17 @@ async function seedDefaultUsers() {
     const salt = await bcrypt.genSalt(10);
     
     // Seed in-memory
-    for (const du of defaultUsers) {
-      const hashedPassword = await bcrypt.hash(du.password, salt);
-      memoryUsers.push({
-        _id: new mongoose.Types.ObjectId().toString(),
-        ...du,
-        password: hashedPassword,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
+    if (memoryUsers.length === 0) {
+      for (const du of defaultUsers) {
+        const hashedPassword = await bcrypt.hash(du.password, salt);
+        memoryUsers.push({
+          _id: new mongoose.Types.ObjectId().toString(),
+          ...du,
+          password: hashedPassword,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        });
+      }
     }
 
     // Seed MongoDB if connected
@@ -84,10 +86,11 @@ async function seedDefaultUsers() {
   }
 }
 
-// Run seeding
-if (mongoose.connection.readyState === 1) {
-  seedDefaultUsers();
-} else {
+// Run seeding immediately for in-memory fallback
+seedDefaultUsers();
+
+// Also listen for MongoDB connection to seed the database
+if (mongoose.connection.readyState !== 1) {
   mongoose.connection.once('open', seedDefaultUsers);
 }
 
