@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zippli - Premium Food Delivery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F4F4;
+            color: #3D4152;
+            margin: 0;
+        }
+        .primary { color: #FC8019; }
+        .bg-primary { background-color: #FC8019; }
+        .hover\:bg-primary:hover { background-color: #E07010; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-primary text-white p-4 shadow-lg">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">🍕 Zippli</h1>
+            <div class="space-x-4">
+                <button class="px-4 py-2 rounded hover:bg-orange-600 transition">Home</button>
+                <button class="px-4 py-2 rounded hover:bg-orange-600 transition">Orders</button>
+                <button class="px-4 py-2 rounded hover:bg-orange-600 transition">Profile</button>
+                <button class="px-4 py-2 rounded hover:bg-orange-600 transition">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center mb-16">
+            <h2 class="text-5xl font-bold text-textPrimary mb-4">Fast Food Delivery at Your Doorstep</h2>
+            <p class="text-xl text-gray-600 mb-8">Order from your favorite restaurants and get it delivered in 30-45 minutes</p>
+            <button class="bg-primary text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 transition">
+                🛵 Order Now
+            </button>
+        </div>
+
+        <!-- Features -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition">
+                <div class="text-5xl mb-4">🚚</div>
+                <h3 class="font-bold text-xl mb-2">Fast Delivery</h3>
+                <p class="text-gray-600">30-45 minutes guarantee or money back</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition">
+                <div class="text-5xl mb-4">🍽️</div>
+                <h3 class="font-bold text-xl mb-2">Wide Range</h3>
+                <p class="text-gray-600">1000+ restaurants across your city</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition">
+                <div class="text-5xl mb-4">💰</div>
+                <h3 class="font-bold text-xl mb-2">Best Prices</h3>
+                <p class="text-gray-600">Exclusive discounts and offers daily</p>
+            </div>
+        </div>
+
+        <!-- Popular Restaurants -->
+        <h2 class="text-3xl font-bold mb-8">Popular Restaurants</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gradient-to-r from-orange-400 to-red-500 h-32 flex items-center justify-center text-4xl">🍔</div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg">Burger Palace</h3>
+                    <p class="text-gray-600 text-sm">Fast Food • 15 min</p>
+                    <div class="flex mt-2">
+                        <span class="text-yellow-400">★★★★★</span>
+                        <span class="ml-2 text-sm text-gray-600">(234 reviews)</span>
+                    </div>
+                    <p class="text-primary font-bold mt-2">$5.99 - $15.99</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gradient-to-r from-green-400 to-emerald-500 h-32 flex items-center justify-center text-4xl">🍕</div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg">Pizza Haven</h3>
+                    <p class="text-gray-600 text-sm">Italian • 20 min</p>
+                    <div class="flex mt-2">
+                        <span class="text-yellow-400">★★★★★</span>
+                        <span class="ml-2 text-sm text-gray-600">(187 reviews)</span>
+                    </div>
+                    <p class="text-primary font-bold mt-2">$6.99 - $18.99</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-32 flex items-center justify-center text-4xl">🌮</div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg">Taco House</h3>
+                    <p class="text-gray-600 text-sm">Mexican • 18 min</p>
+                    <div class="flex mt-2">
+                        <span class="text-yellow-400">★★★★☆</span>
+                        <span class="ml-2 text-sm text-gray-600">(156 reviews)</span>
+                    </div>
+                    <p class="text-primary font-bold mt-2">$4.99 - $12.99</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition cursor-pointer">
+                <div class="bg-gradient-to-r from-red-400 to-pink-500 h-32 flex items-center justify-center text-4xl">🍜</div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg">Noodle Street</h3>
+                    <p class="text-gray-600 text-sm">Asian • 22 min</p>
+                    <div class="flex mt-2">
+                        <span class="text-yellow-400">★★★★★</span>
+                        <span class="ml-2 text-sm text-gray-600">(312 reviews)</span>
+                    </div>
+                    <p class="text-primary font-bold mt-2">$5.99 - $14.99</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="font-bold mb-2">Browse</h3>
+                    <p class="text-gray-600">Explore restaurants and menus</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="font-bold mb-2">Add to Cart</h3>
+                    <p class="text-gray-600">Select your favorite dishes</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="font-bold mb-2">Checkout</h3>
+                    <p class="text-gray-600">Fast and secure payment</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="font-bold mb-2">Delivered</h3>
+                    <p class="text-gray-600">Track your order in real-time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold mb-8 text-center">What Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="flex mb-4">
+                        <span class="text-yellow-400">★★★★★</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Amazing service! Food arrived hot and on time. Will definitely order again!"</p>
+                    <p class="font-bold">- Sarah M.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="flex mb-4">
+                        <span class="text-yellow-400">★★★★★</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Best food delivery app in the city. Great variety of restaurants and reasonable prices."</p>
+                    <p class="font-bold">- John D.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="flex mb-4">
+                        <span class="text-yellow-400">★★★★★</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">"Fast delivery, easy to use interface. Love the discounts and loyalty program!"</p>
+                    <p class="font-bold">- Emma L.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white p-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-bold mb-4">Zippli</h4>
+                    <p class="text-gray-400">Fast, reliable food delivery at your doorstep.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Status</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><a href="#" class="hover:text-white">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms</a></li>
+                        <li><a href="#" class="hover:text-white">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>© 2024 Zippli. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
