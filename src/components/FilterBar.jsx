@@ -70,6 +70,23 @@ export default function FilterBar({
           </span>
           <span>Non-Veg</span>
         </button>
+
+        {/* Jain Food Pill (No Onion, No Garlic) */}
+        <button
+          type="button"
+          onClick={() => setDietFilter(dietFilter === 'jain' ? 'all' : 'jain')}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition-all duration-150 flex items-center gap-1.5 shrink-0 ${
+            dietFilter === 'jain'
+              ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-600 text-amber-700 dark:text-amber-400 font-bold shadow-sm'
+              : 'bg-white dark:bg-neutral-850 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-700 hover:text-neutral-900 dark:hover:text-white'
+          }`}
+        >
+          {/* Amber Ahimsa Leaf Dot */}
+          <span className="w-3.5 h-3.5 rounded-sm border border-amber-600 flex items-center justify-center p-0.5 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+          </span>
+          <span>Jain (No Onion/Garlic)</span>
+        </button>
       </div>
 
       {/* Right Sort Filters */}

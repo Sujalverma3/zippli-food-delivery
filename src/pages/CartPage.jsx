@@ -241,8 +241,8 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-6">
           
           {/* Address Selection */}
-          <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2.5">
+          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4 flex items-center space-x-2.5">
               <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
@@ -258,29 +258,29 @@ export default function CartPage() {
                     onClick={() => handleAddressSelect(addr)}
                     className={`p-4 rounded-xl border text-left cursor-pointer transition-all relative ${
                       selectedAddressId === addr._id
-                        ? 'border-primary bg-orange-50 bg-opacity-40 shadow-sm'
-                        : 'border-gray-200 bg-white hover:bg-gray-50'
+                        ? 'border-primary bg-orange-50/50 dark:bg-orange-950/20 shadow-sm'
+                        : 'border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 hover:bg-gray-50 dark:hover:bg-neutral-800'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-[9px] font-extrabold uppercase bg-white border px-2 py-0.5 rounded text-primary">
+                      <span className="text-[9px] font-extrabold uppercase bg-white dark:bg-neutral-800 border dark:border-neutral-700 px-2 py-0.5 rounded text-primary">
                         {addr.tag}
                       </span>
                       {selectedAddressId === addr._id && (
                         <span className="bg-primary text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">✓</span>
                       )}
                     </div>
-                    <span className="text-xs font-bold text-textPrimary block truncate">{addr.street}</span>
-                    <span className="text-[10px] text-textMuted block mt-0.5 truncate">{addr.details}</span>
+                    <span className="text-xs font-bold text-textPrimary dark:text-neutral-100 block truncate">{addr.street}</span>
+                    <span className="text-[10px] text-textMuted dark:text-neutral-400 block mt-0.5 truncate">{addr.details}</span>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="p-4 bg-orange-50 bg-opacity-40 border border-orange-100 rounded-xl mb-4 text-xs flex items-start space-x-2.5">
+              <div className="p-4 bg-orange-50/50 dark:bg-orange-950/20 border border-orange-100 dark:border-orange-900/60 rounded-xl mb-4 text-xs flex items-start space-x-2.5">
                 <svg className="w-4 h-4 text-primary shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <span>
+                <span className="text-gray-700 dark:text-neutral-300">
                   You don't have any saved addresses. We will use the custom address field below. Add addresses in your{' '}
                   <Link to="/profile" className="text-primary font-bold hover:underline">Profile Page</Link> for quicker selection.
                 </span>
@@ -291,57 +291,98 @@ export default function CartPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-textMuted uppercase mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-textMuted dark:text-neutral-400 uppercase mb-1">Full Name</label>
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
-                    className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
+                    className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-100 focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-textMuted uppercase mb-1">Phone Number</label>
+                  <label className="block text-xs font-bold text-textMuted dark:text-neutral-400 uppercase mb-1">Phone Number</label>
                   <input
                     type="tel"
                     required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="Enter 10-digit number"
-                    className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
+                    className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-100 focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-textMuted uppercase mb-1">Selected Street Address</label>
+                <label className="block text-xs font-bold text-textMuted dark:text-neutral-400 uppercase mb-1">Selected Street Address</label>
                 <textarea
                   required
                   rows="3"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="Complete Address (flat/house no, street, area, pincode)"
-                  className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all resize-none"
+                  className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-100 focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all resize-none"
                 ></textarea>
               </div>
 
               {/* Delivery Instructions */}
               <div>
-                <label className="block text-xs font-bold text-textMuted uppercase mb-1">Delivery Instructions (Optional)</label>
+                <label className="block text-xs font-bold text-textMuted dark:text-neutral-400 uppercase mb-1">
+                  Delivery & Kitchen Instructions (Optional)
+                </label>
                 <input
                   type="text"
                   value={deliveryInstructions}
                   onChange={(e) => setDeliveryInstructions(e.target.value)}
-                  placeholder="e.g. Leave with guard, Don't ring bell, Call on arrival"
-                  className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
+                  placeholder="e.g. Leave with guard, Don't ring bell, Jain prep"
+                  className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-100 focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:outline-none rounded-lg px-4 py-2.5 text-sm transition-all"
                 />
+                
+                {/* One-tap Kitchen & Delivery Preferences */}
+                <div className="flex flex-wrap items-center gap-2 mt-2.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tag = 'Jain Preparation: No Onion, No Garlic';
+                      setDeliveryInstructions((prev) =>
+                        prev.includes(tag) ? prev.replace(tag, '').replace(/\|\s*$/, '').trim() : (prev ? `${prev} | ${tag}` : tag)
+                      );
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                      deliveryInstructions.includes('Jain Preparation')
+                        ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
+                        : 'bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 border-amber-200 dark:border-amber-800/60 hover:bg-amber-100 dark:hover:bg-amber-900/40'
+                    }`}
+                  >
+                    <span>🌾</span>
+                    <span>Jain Prep (No Onion/Garlic)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tag = 'No-contact delivery: leave at door';
+                      setDeliveryInstructions((prev) =>
+                        prev.includes(tag) ? prev.replace(tag, '').replace(/\|\s*$/, '').trim() : (prev ? `${prev} | ${tag}` : tag)
+                      );
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold border flex items-center gap-1.5 transition-all ${
+                      deliveryInstructions.includes('No-contact delivery')
+                        ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 border-neutral-900 shadow-sm'
+                        : 'bg-gray-50 dark:bg-neutral-800 text-gray-700 dark:text-neutral-300 border-gray-200 dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-750'
+                    }`}
+                  >
+                    <span>🚪</span>
+                    <span>No-Contact Delivery</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Payment Options */}
-          <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2.5">
+          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4 flex items-center space-x-2.5">
               <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
@@ -386,8 +427,8 @@ export default function CartPage() {
                   onClick={() => setPaymentMethod(method.id)}
                   className={`p-4 rounded-xl border text-left flex flex-col justify-between h-28 transition-all relative ${
                     paymentMethod === method.id
-                      ? 'border-primary bg-orange-50 bg-opacity-40 shadow-sm'
-                      : 'border-gray-200 bg-white hover:bg-gray-50'
+                      ? 'border-primary bg-orange-50/50 dark:bg-orange-950/20 shadow-sm'
+                      : 'border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 hover:bg-gray-50 dark:hover:bg-neutral-800'
                   }`}
                 >
                   <div className="flex justify-between items-center w-full">
@@ -397,8 +438,8 @@ export default function CartPage() {
                     )}
                   </div>
                   <div>
-                    <span className="text-xs font-bold text-textPrimary block leading-tight">{method.name}</span>
-                    <span className="text-[10px] text-textMuted block mt-0.5 leading-tight">{method.desc}</span>
+                    <span className="text-xs font-bold text-textPrimary dark:text-neutral-100 block leading-tight">{method.name}</span>
+                    <span className="text-[10px] text-textMuted dark:text-neutral-400 block mt-0.5 leading-tight">{method.desc}</span>
                   </div>
                 </button>
               ))}
@@ -408,27 +449,27 @@ export default function CartPage() {
 
         {/* Right billing sidebar */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2.5">
+          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4 flex items-center space-x-2.5">
               <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
               <span>Review Items ({cart.length})</span>
             </h2>
-            <div className="divide-y divide-gray-50 max-h-48 overflow-y-auto pr-1 no-scrollbar">
+            <div className="divide-y divide-gray-50 dark:divide-neutral-800 max-h-48 overflow-y-auto pr-1 no-scrollbar">
               {cart.map((item) => (
                 <div key={item.id} className="flex justify-between items-center py-2.5 first:pt-0">
                   <div className="text-xs pr-2">
-                    <span className="font-semibold text-textPrimary block leading-snug">{item.name}</span>
-                    <span className="text-[10px] text-textMuted block mt-0.5">₹{item.price} each</span>
+                    <span className="font-semibold text-textPrimary dark:text-neutral-100 block leading-snug">{item.name}</span>
+                    <span className="text-[10px] text-textMuted dark:text-neutral-400 block mt-0.5">₹{item.price} each</span>
                   </div>
                   <div className="flex items-center space-x-3 shrink-0">
-                    <div className="flex items-center bg-gray-50 text-textPrimary rounded px-2 py-0.5 border border-gray-200">
+                    <div className="flex items-center bg-gray-50 dark:bg-neutral-800 text-textPrimary dark:text-neutral-100 rounded px-2 py-0.5 border border-gray-200 dark:border-neutral-700">
                       <button onClick={() => updateQty(item.id, item.quantity - 1)} className="font-bold text-[10px]">−</button>
                       <span className="px-2 font-bold text-[10px]">{item.quantity}</span>
                       <button onClick={() => updateQty(item.id, item.quantity + 1)} className="font-bold text-[10px]">+</button>
                     </div>
-                    <span className="text-xs font-bold text-textPrimary min-w-[50px] text-right">₹{item.price * item.quantity}</span>
+                    <span className="text-xs font-bold text-textPrimary dark:text-neutral-100 min-w-[50px] text-right">₹{item.price * item.quantity}</span>
                   </div>
                 </div>
               ))}

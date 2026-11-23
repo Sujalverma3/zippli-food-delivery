@@ -264,15 +264,15 @@ export default function OrderTracking() {
         <span>Back to Customer App</span>
       </Link>
       {/* Upper Tracker Summary */}
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 animate-fade-in">
+      <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 dark:border-neutral-800 mb-8 flex flex-col md:flex-row justify-between items-center gap-6 animate-fade-in">
         <div>
-          <span className="text-xs font-bold text-textMuted uppercase tracking-wider block">Tracking Order</span>
-          <h1 className="text-xl md:text-2xl font-extrabold text-textPrimary mt-1">#{order.orderId}</h1>
-          <p className="text-xs text-textMuted mt-1">
-            Restaurant: <span className="font-bold text-textPrimary">{order.restaurant}</span>
+          <span className="text-xs font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block">Tracking Order</span>
+          <h1 className="text-xl md:text-2xl font-extrabold text-textPrimary dark:text-neutral-100 mt-1">#{order.orderId}</h1>
+          <p className="text-xs text-textMuted dark:text-neutral-400 mt-1">
+            Restaurant: <span className="font-bold text-textPrimary dark:text-neutral-100">{order.restaurant}</span>
           </p>
           {order.deliveryInstructions && (
-            <p className="text-[10px] text-primary italic mt-1 bg-orange-50 border border-orange-100 px-2.5 py-1 rounded inline-flex items-center">
+            <p className="text-[10px] text-primary italic mt-1 bg-orange-50 dark:bg-orange-950/30 border border-orange-100 dark:border-orange-900/60 px-2.5 py-1 rounded inline-flex items-center">
               <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
               <span>Instructions: "{order.deliveryInstructions}"</span>
             </p>
@@ -280,15 +280,15 @@ export default function OrderTracking() {
         </div>
 
         {order.status !== 'cancelled' && order.status !== 'delivered' && (
-          <div className="bg-orange-50 border border-orange-100 p-4 rounded-2xl min-w-[220px] shadow-sm flex items-center gap-4 text-left">
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-200 bg-white shrink-0 shadow-sm p-1 flex items-center justify-center">
+          <div className="bg-orange-50 dark:bg-orange-950/40 border border-orange-100 dark:border-orange-900/60 p-4 rounded-2xl min-w-[220px] shadow-sm flex items-center gap-4 text-left">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-orange-200 dark:border-orange-800 bg-white dark:bg-neutral-800 shrink-0 shadow-sm p-1 flex items-center justify-center">
               <img src="/images/foody_logo.png" alt="Foody Logo" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="text-xs font-bold text-primary uppercase block animate-pulse">Arriving in</span>
               <span className="text-2xl font-extrabold text-primary block mt-0.5">{timeLeft} Mins</span>
-              <span className="text-[10px] text-textMuted block mt-0.5">
-                Rider: <span className="font-bold text-textPrimary">{order.deliveryAgent || 'Zippli Partner'}</span>
+              <span className="text-[10px] text-textMuted dark:text-neutral-400 block mt-0.5">
+                Rider: <span className="font-bold text-textPrimary dark:text-neutral-200">{order.deliveryAgent || 'Zippli Partner'}</span>
               </span>
             </div>
           </div>
@@ -319,29 +319,29 @@ export default function OrderTracking() {
         <div className="md:col-span-2 space-y-6">
           
           {/* Map Container */}
-          <div className="bg-white rounded-3xl p-4 shadow-card border border-gray-100 overflow-hidden">
-            <h3 className="text-xs font-bold text-textMuted uppercase tracking-wider mb-3 block pl-2">Live Delivery Route</h3>
+          <div className="bg-white dark:bg-[#16171e] rounded-3xl p-4 shadow-card border border-gray-100 dark:border-neutral-800 overflow-hidden">
+            <h3 className="text-xs font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider mb-3 block pl-2">Live Delivery Route</h3>
             <div 
               id={mapContainerId} 
               style={{ height: '320px' }} 
-              className="rounded-2xl overflow-hidden shadow-inner border border-gray-100 bg-gray-100 z-10"
+              className="rounded-2xl overflow-hidden shadow-inner border border-gray-100 dark:border-neutral-700 bg-gray-100 dark:bg-neutral-800 z-10"
             ></div>
           </div>
 
           {/* Timeline */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-6">Delivery Timeline</h2>
+          <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-6">Delivery Timeline</h2>
             
             {order.status === 'cancelled' ? (
               <div className="text-center py-6 flex flex-col items-center justify-center">
                 <svg className="w-12 h-12 text-red-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
                 </svg>
-                <h3 className="text-base font-bold text-textPrimary mt-4">Order Cancelled</h3>
-                <p className="text-xs text-textMuted mt-1">This order was cancelled. Please check your payment refund status or re-order.</p>
+                <h3 className="text-base font-bold text-textPrimary dark:text-neutral-100 mt-4">Order Cancelled</h3>
+                <p className="text-xs text-textMuted dark:text-neutral-400 mt-1">This order was cancelled. Please check your payment refund status or re-order.</p>
               </div>
             ) : (
-              <div className="relative pl-6 border-l-2 border-gray-100 space-y-8 ml-3">
+              <div className="relative pl-6 border-l-2 border-gray-100 dark:border-neutral-800 space-y-8 ml-3">
                 {STEPS.map((step, idx) => {
                   const isCompleted = idx < currentStepIdx;
                   const isActive = idx === currentStepIdx;
@@ -353,7 +353,7 @@ export default function OrderTracking() {
                           ? 'bg-success border-success' 
                           : isActive 
                           ? 'bg-primary border-primary animate-pulse' 
-                          : 'bg-white border-gray-200'
+                          : 'bg-white dark:bg-neutral-800 border-gray-200 dark:border-neutral-700'
                       }`}></div>
                       
                       {isActive && (
@@ -362,11 +362,11 @@ export default function OrderTracking() {
 
                       <div className="flex flex-col">
                         <span className={`text-sm font-bold ${
-                          isCompleted ? 'text-success' : isActive ? 'text-primary' : 'text-textMuted'
+                          isCompleted ? 'text-success' : isActive ? 'text-primary' : 'text-textMuted dark:text-neutral-400'
                         }`}>
                           {step.label}
                         </span>
-                        <span className="text-xs text-textMuted mt-0.5 leading-snug">{step.desc}</span>
+                        <span className="text-xs text-textMuted dark:text-neutral-400 mt-0.5 leading-snug">{step.desc}</span>
                       </div>
                     </div>
                   );
@@ -381,8 +381,8 @@ export default function OrderTracking() {
           
           {/* Rating / Review Card (visible only when delivered) */}
           {order.status === 'delivered' && (
-            <div className="bg-white rounded-3xl p-6 shadow-card border border-gray-100 animate-scale-up">
-              <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4">Rate your Experience</h2>
+            <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 shadow-card border border-gray-100 dark:border-neutral-800 animate-scale-up">
+              <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4">Rate your Experience</h2>
               
               {rated ? (
                 <div className="text-center py-4 space-y-2">
@@ -392,18 +392,18 @@ export default function OrderTracking() {
                         {i < rating ? (
                           <svg className="w-6 h-6 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         ) : (
-                          <svg className="w-6 h-6 text-gray-200 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
+                          <svg className="w-6 h-6 text-gray-200 dark:text-neutral-700 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
                         )}
                       </span>
                     ))}
                   </div>
-                  <p className="text-xs text-textPrimary font-bold">You rated this: {rating} Stars</p>
-                  {feedback && <p className="text-xs text-textMuted italic bg-gray-50 p-2.5 rounded-xl border border-gray-100">"{feedback}"</p>}
+                  <p className="text-xs text-textPrimary dark:text-neutral-100 font-bold">You rated this: {rating} Stars</p>
+                  {feedback && <p className="text-xs text-textMuted dark:text-neutral-400 italic bg-gray-50 dark:bg-neutral-800 p-2.5 rounded-xl border border-gray-100 dark:border-neutral-700">"{feedback}"</p>}
                 </div>
               ) : (
                 <form onSubmit={handleRatingSubmit} className="space-y-4">
                   <div className="text-center">
-                    <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-2">Tap to Rate</label>
+                    <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-2">Tap to Rate</label>
                     <div className="flex justify-center space-x-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -415,7 +415,7 @@ export default function OrderTracking() {
                           {star <= rating ? (
                             <svg className="w-8 h-8 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                           ) : (
-                            <svg className="w-8 h-8 text-gray-200 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
+                            <svg className="w-8 h-8 text-gray-200 dark:text-neutral-700 inline" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" opacity="0.25"></path></svg>
                           )}
                         </button>
                       ))}
@@ -423,13 +423,13 @@ export default function OrderTracking() {
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1">Reviews & Comments</label>
+                    <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-1">Reviews & Comments</label>
                     <textarea
                       rows="3"
                       placeholder="Was the food hot? How was the delivery speed?"
                       value={feedback}
                       onChange={(e) => setFeedback(e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 focus:border-primary focus:bg-white focus:outline-none rounded-lg p-3 text-xs resize-none"
+                      className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-100 focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:outline-none rounded-lg p-3 text-xs resize-none"
                     ></textarea>
                   </div>
 
@@ -446,31 +446,31 @@ export default function OrderTracking() {
           )}
 
           {/* Details Card */}
-          <div className="bg-white rounded-3xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4">Order Details</h2>
+          <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4">Order Details</h2>
             
             <div className="space-y-3 mb-4">
               {order.items.map((item, idx) => (
-                <div key={idx} className="flex justify-between items-start text-xs text-textMuted leading-tight">
+                <div key={idx} className="flex justify-between items-start text-xs text-textMuted dark:text-neutral-400 leading-tight">
                   <div>
-                    <span className="font-semibold text-textPrimary block">{item.name}</span>
-                    <span className="text-[10px] text-textMuted mt-0.5">Qty: {item.quantity}</span>
+                    <span className="font-semibold text-textPrimary dark:text-neutral-100 block">{item.name}</span>
+                    <span className="text-[10px] text-textMuted dark:text-neutral-400 mt-0.5">Qty: {item.quantity}</span>
                   </div>
-                  <span className="font-medium text-textPrimary shrink-0">₹{item.price * item.quantity}</span>
+                  <span className="font-medium text-textPrimary dark:text-neutral-100 shrink-0">₹{item.price * item.quantity}</span>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-gray-100 pt-3 space-y-2 text-xs">
-              <div className="flex justify-between text-textMuted">
+            <div className="border-t border-gray-100 dark:border-neutral-800 pt-3 space-y-2 text-xs">
+              <div className="flex justify-between text-textMuted dark:text-neutral-400">
                 <span>Total amount</span>
-                <span className="font-semibold text-textPrimary">₹{order.totalAmount}</span>
+                <span className="font-semibold text-textPrimary dark:text-neutral-100">₹{order.totalAmount}</span>
               </div>
-              <div className="flex justify-between text-textMuted">
+              <div className="flex justify-between text-textMuted dark:text-neutral-400">
                 <span>Payment Mode</span>
-                <span className="font-semibold text-textPrimary uppercase">{order.paymentMethod}</span>
+                <span className="font-semibold text-textPrimary dark:text-neutral-100 uppercase">{order.paymentMethod}</span>
               </div>
-              <div className="flex justify-between text-textMuted">
+              <div className="flex justify-between text-textMuted dark:text-neutral-400">
                 <span>Payment Status</span>
                 <span className="font-semibold text-success capitalize">{order.paymentStatus}</span>
               </div>
@@ -479,17 +479,17 @@ export default function OrderTracking() {
             {(order.status === 'placed' || order.status === 'confirmed') && (
               <button
                 onClick={handleCancelOrder}
-                className="w-full mt-6 border border-red-200 hover:border-red-500 text-red-500 hover:bg-red-50 transition-colors py-2.5 rounded-xl text-xs font-bold"
+                className="w-full mt-6 border border-red-200 dark:border-red-900/60 hover:border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors py-2.5 rounded-xl text-xs font-bold"
               >
                 Cancel Order
               </button>
             )}
           </div>
 
-          <div className="bg-white rounded-3xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-xs font-bold text-textMuted uppercase mb-3">Delivery Address</h2>
-            <p className="text-xs font-semibold text-textPrimary leading-relaxed">{order.customerAddress}</p>
-            <p className="text-xs text-textMuted mt-2">Recipient: {order.customerName} ({order.customerPhone})</p>
+          <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-xs font-bold text-textMuted dark:text-neutral-400 uppercase mb-3">Delivery Address</h2>
+            <p className="text-xs font-semibold text-textPrimary dark:text-neutral-100 leading-relaxed">{order.customerAddress}</p>
+            <p className="text-xs text-textMuted dark:text-neutral-400 mt-2">Recipient: {order.customerName} ({order.customerPhone})</p>
           </div>
         </div>
 

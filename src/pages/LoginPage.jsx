@@ -65,14 +65,14 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12 bg-gradient-to-br from-orange-50 via-background to-gray-100">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-12 bg-gradient-to-br from-orange-50 via-background to-gray-100 dark:from-neutral-950 dark:via-[#0d0e12] dark:to-neutral-900 transition-colors duration-200">
       <Link to="/" className="text-primary hover:text-orange-600 font-bold mb-6 flex items-center space-x-1.5 transition-all text-xs">
         <svg className="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
         </svg>
         <span>Back to Customer Storefront</span>
       </Link>
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-card border border-gray-100 overflow-hidden transform transition-all duration-300 hover:shadow-xl">
+      <div className="w-full max-w-md bg-white dark:bg-[#16171e] rounded-3xl shadow-card border border-gray-100 dark:border-neutral-800 overflow-hidden transform transition-all duration-300 hover:shadow-xl">
         {/* Banner */}
         <div className="bg-primary p-8 text-center text-white relative">
           <div className="absolute top-0 right-0 w-24 h-24 bg-white opacity-10 rounded-full translate-x-8 -translate-y-8"></div>
@@ -84,11 +84,11 @@ export default function LoginPage() {
         </div>
 
         {/* Tab Headers */}
-        <div className="flex border-b border-gray-100 bg-gray-50">
+        <div className="flex border-b border-gray-100 dark:border-neutral-800 bg-gray-50 dark:bg-neutral-850">
           <button
             onClick={() => setIsRegister(false)}
             className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 flex items-center justify-center ${
-              !isRegister ? 'border-primary text-primary bg-white' : 'border-transparent text-textMuted hover:text-textPrimary'
+              !isRegister ? 'border-primary text-primary bg-white dark:bg-[#16171e]' : 'border-transparent text-textMuted dark:text-neutral-400 hover:text-textPrimary dark:hover:text-white'
             }`}
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@ export default function LoginPage() {
           <button
             onClick={() => setIsRegister(true)}
             className={`flex-1 py-4 text-sm font-bold text-center border-b-2 transition-all duration-200 flex items-center justify-center ${
-              isRegister ? 'border-primary text-primary bg-white' : 'border-transparent text-textMuted hover:text-textPrimary'
+              isRegister ? 'border-primary text-primary bg-white dark:bg-[#16171e]' : 'border-transparent text-textMuted dark:text-neutral-400 hover:text-textPrimary dark:hover:text-white'
             }`}
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -114,51 +114,51 @@ export default function LoginPage() {
           {isRegister && (
             <>
               <div>
-                <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Full Name</label>
+                <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-1.5">Full Name</label>
                 <input
                   type="text"
                   required
                   placeholder="Enter your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                  className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-sm text-textPrimary dark:text-neutral-100 px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
                 />
               </div>
               <div>
-                <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Phone Number</label>
+                <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-1.5">Phone Number</label>
                 <input
                   type="tel"
                   required
                   placeholder="e.g. +91 98765 43210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
+                  className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-sm text-textPrimary dark:text-neutral-100 px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
                 />
               </div>
             </>
           )}
 
           <div>
-            <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Email Address</label>
+            <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-1.5">Email Address</label>
             <input
               type="email"
               required
               placeholder="name@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
+              className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-sm text-textPrimary dark:text-neutral-100 px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
             />
           </div>
 
           <div>
-            <label className="text-[10px] font-bold text-textMuted uppercase tracking-wider block mb-1.5">Password</label>
+            <label className="text-[10px] font-bold text-textMuted dark:text-neutral-400 uppercase tracking-wider block mb-1.5">Password</label>
             <input
               type="password"
               required
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 text-sm text-textPrimary px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
+              className="w-full bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-sm text-textPrimary dark:text-neutral-100 px-4 py-2.5 rounded-xl focus:border-primary focus:bg-white dark:focus:bg-neutral-800 focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200"
             />
           </div>
 

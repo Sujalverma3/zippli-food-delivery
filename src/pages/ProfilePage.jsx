@@ -152,15 +152,15 @@ export default function ProfilePage() {
         <span>Back to Customer App</span>
       </Link>
       {/* Upper Profile Banner */}
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 flex flex-col md:flex-row items-center justify-between mb-8">
+      <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between mb-8">
         <div className="flex items-center space-x-5 mb-4 md:mb-0">
           <div className="w-16 h-16 rounded-full bg-primary bg-opacity-10 text-primary flex items-center justify-center text-3xl font-extrabold shadow-sm">
             {currentUser?.name[0].toUpperCase()}
           </div>
           <div>
-            <h1 className="text-xl font-extrabold text-textPrimary">{currentUser?.name}</h1>
-            <p className="text-xs text-textMuted mt-0.5">{currentUser?.email} | {currentUser?.phone}</p>
-            <span className="inline-flex items-center mt-2 bg-primary bg-opacity-10 text-primary text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full border border-orange-100">
+            <h1 className="text-xl font-extrabold text-textPrimary dark:text-neutral-100">{currentUser?.name}</h1>
+            <p className="text-xs text-textMuted dark:text-neutral-400 mt-0.5">{currentUser?.email} | {currentUser?.phone}</p>
+            <span className="inline-flex items-center mt-2 bg-primary bg-opacity-10 text-primary text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full border border-orange-100 dark:border-orange-900/60">
               <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
               </svg>
@@ -170,7 +170,7 @@ export default function ProfilePage() {
         </div>
         <button
           onClick={logout}
-          className="border border-red-200 text-red-500 hover:bg-red-50 px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5"
+          className="border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 px-6 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5"
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
@@ -197,7 +197,7 @@ export default function ProfilePage() {
               className={`w-full text-left px-5 py-3.5 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center space-x-3 border ${
                 activeTab === tab.id
                   ? 'bg-primary text-white border-primary shadow-sm'
-                  : 'bg-white text-textMuted border-gray-200 hover:border-primary hover:text-primary'
+                  : 'bg-white dark:bg-[#16171e] text-textMuted dark:text-neutral-400 border-gray-200 dark:border-neutral-800 hover:border-primary hover:text-primary dark:hover:text-white'
               }`}
             >
               {tab.icon}
@@ -207,11 +207,11 @@ export default function ProfilePage() {
         </div>
 
         {/* Tab Content Panel */}
-        <div className="lg:col-span-3 bg-white rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 min-h-[50vh]">
+        <div className="lg:col-span-3 bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 shadow-card border border-gray-100 dark:border-neutral-800 min-h-[50vh]">
           {/* ============ TAB: ORDER HISTORY ============ */}
           {activeTab === 'orders' && (
             <div>
-              <h2 className="text-lg font-extrabold text-textPrimary mb-6 flex items-center">
+              <h2 className="text-lg font-extrabold text-textPrimary dark:text-neutral-100 mb-6 flex items-center">
                 <svg className="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                 </svg>
@@ -236,34 +236,34 @@ export default function ProfilePage() {
               ) : (
                 <div className="space-y-4">
                   {orders.map((o) => (
-                    <div key={o.orderId} className="border border-gray-100 rounded-2xl p-5 hover:shadow-sm transition-all bg-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div key={o.orderId} className="border border-gray-100 dark:border-neutral-800 rounded-2xl p-5 hover:shadow-sm transition-all bg-gray-50 dark:bg-neutral-850 flex flex-col md:flex-row justify-between items-start md:items-center">
                       <div className="mb-4 md:mb-0">
                         <div className="flex items-center space-x-2">
                           <span className="text-xs font-extrabold text-primary">#{o.orderId}</span>
-                          <span className="text-[10px] text-textMuted">•</span>
-                          <span className="text-xs font-bold text-textPrimary">{o.restaurant}</span>
+                          <span className="text-[10px] text-textMuted dark:text-neutral-400">•</span>
+                          <span className="text-xs font-bold text-textPrimary dark:text-neutral-100">{o.restaurant}</span>
                         </div>
-                        <p className="text-[11px] text-textMuted mt-1 max-w-md">
+                        <p className="text-[11px] text-textMuted dark:text-neutral-400 mt-1 max-w-md">
                           {o.items.map(item => `${item.name} (${item.quantity})`).join(', ')}
                         </p>
                         <div className="flex items-center space-x-4 mt-3 text-[10px]">
-                          <span className="font-bold text-textPrimary">₹{o.totalAmount}</span>
-                          <span className="text-textMuted">|</span>
-                          <span className="capitalize text-textMuted">Paid via: {o.paymentMethod.toUpperCase()}</span>
+                          <span className="font-bold text-textPrimary dark:text-neutral-100">₹{o.totalAmount}</span>
+                          <span className="text-textMuted dark:text-neutral-400">|</span>
+                          <span className="capitalize text-textMuted dark:text-neutral-400">Paid via: {o.paymentMethod.toUpperCase()}</span>
                         </div>
                       </div>
                       <div className="flex flex-col items-end w-full md:w-auto">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider border mb-3 ${
-                          o.status === 'delivered' ? 'bg-green-50 text-green-600 border-green-100' :
-                          o.status === 'cancelled' ? 'bg-red-50 text-red-600 border-red-100' :
-                          'bg-orange-50 text-orange-600 border-orange-100 animate-pulse'
+                          o.status === 'delivered' ? 'bg-green-50 dark:bg-green-950/40 text-green-600 dark:text-green-400 border-green-100 dark:border-green-900/60' :
+                          o.status === 'cancelled' ? 'bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border-red-100 dark:border-red-900/60' :
+                          'bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 border-orange-100 dark:border-orange-900/60 animate-pulse'
                         }`}>
                           {o.status.replace('_', ' ')}
                         </span>
                         {o.status !== 'cancelled' && (
                           <Link
                             to={`/track/${o.orderId}`}
-                            className="bg-white border border-gray-200 text-textPrimary hover:border-primary hover:text-primary px-4 py-2 rounded-xl text-[10px] font-bold shadow-sm transition-all text-center w-full md:w-auto flex items-center justify-center"
+                            className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-textPrimary dark:text-neutral-200 hover:border-primary hover:text-primary px-4 py-2 rounded-xl text-[10px] font-bold shadow-sm transition-all text-center w-full md:w-auto flex items-center justify-center"
                           >
                             <span className="flex items-center space-x-1.5">
                               {o.status === 'delivered' ? (

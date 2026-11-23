@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1f1f2e] text-gray-300 mt-16">
+    <footer className="bg-[#181920] dark:bg-[#090a0d] text-gray-300 mt-16 border-t border-transparent dark:border-neutral-850 transition-colors duration-200">
       {/* Top wave separator */}
       <div className="h-1 bg-gradient-to-r from-primary via-orange-400 to-red-500"></div>
 

@@ -21,6 +21,7 @@ export default function RestaurantPage() {
   const [selectedSpice, setSelectedSpice] = useState('Medium'); // Mild, Medium, Hot
   const [extraCheese, setExtraCheese] = useState(false);
   const [extraToppings, setExtraToppings] = useState(false);
+  const [isJainOption, setIsJainOption] = useState(false);
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -87,6 +88,7 @@ export default function RestaurantPage() {
       setSelectedSpice('Medium');
       setExtraCheese(false);
       setExtraToppings(false);
+      setIsJainOption(false);
     } else {
       // Add directly
       addItem({
@@ -129,9 +131,12 @@ export default function RestaurantPage() {
       extraCost += 20;
       details.push('Extra Toppings');
     }
+    if (isJainOption) {
+      details.push('Jain (No Onion/Garlic)');
+    }
 
     const finalPrice = Math.max(10, customizingItem.price + extraCost);
-    const customId = `${customizingItem.id}-${selectedSize}-${selectedSpice}-${extraCheese ? 'cheese' : 'no'}-${extraToppings ? 'toppings' : 'no'}`;
+    const customId = `${customizingItem.id}-${selectedSize}-${selectedSpice}-${extraCheese ? 'cheese' : 'no'}-${extraToppings ? 'toppings' : 'no'}-${isJainOption ? 'jain' : 'std'}`;
     const customName = `${customizingItem.name} (${details.join(', ')})`;
 
     addItem({
@@ -580,8 +585,8 @@ export default function RestaurantPage() {
 
       {/* Item Customization Modal */}
       {customizingItem && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-gray-100 transform transition-all duration-300 scale-100 animate-scale-up">
+        <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white dark:bg-[#16171e] rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-gray-100 dark:border-neutral-800 transform transition-all duration-300 scale-100 animate-scale-up">
             
             {/* Modal Header */}
             <div className="bg-primary p-6 text-white relative">
@@ -600,7 +605,7 @@ export default function RestaurantPage() {
               
               {/* Size Options */}
               <div className="space-y-2.5">
-                <h4 className="font-bold text-textPrimary uppercase tracking-wider text-[10px] text-textMuted">Select Portion Size</h4>
+                <h4 className="font-bold text-textPrimary dark:text-neutral-100 uppercase tracking-wider text-[10px] text-textMuted dark:text-neutral-400">Select Portion Size</h4>
                 <div className="grid grid-cols-3 gap-2.5">
                   {[
                     { name: 'Regular', desc: '-₹20', active: selectedSize === 'Regular' },
@@ -613,8 +618,8 @@ export default function RestaurantPage() {
                       onClick={() => setSelectedSize(sz.name)}
                       className={`border rounded-xl p-3 font-bold text-center transition-all ${
                         sz.active 
-                          ? 'border-primary bg-orange-50 text-primary' 
-                          : 'border-gray-200 hover:border-primary text-textMuted hover:text-primary'
+                          ? 'border-primary bg-orange-50 dark:bg-orange-950/40 text-primary' 
+                          : 'border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 hover:border-primary text-textMuted dark:text-neutral-300 hover:text-primary dark:hover:text-white'
                       }`}
                     >
                       <div className="text-xs">{sz.name}</div>
@@ -626,7 +631,7 @@ export default function RestaurantPage() {
 
               {/* Spice Level */}
               <div className="space-y-2.5">
-                <h4 className="font-bold text-textPrimary uppercase tracking-wider text-[10px] text-textMuted font-sans">Select Spice Level</h4>
+                <h4 className="font-bold text-textPrimary dark:text-neutral-100 uppercase tracking-wider text-[10px] text-textMuted dark:text-neutral-400 font-sans">Select Spice Level</h4>
                 <div className="grid grid-cols-3 gap-2.5">
                   {['Mild', 'Medium', 'Hot'].map(spice => (
                     <button
@@ -635,8 +640,8 @@ export default function RestaurantPage() {
                       onClick={() => setSelectedSpice(spice)}
                       className={`border rounded-xl p-3 font-bold text-center transition-all flex flex-col items-center justify-center ${
                         selectedSpice === spice 
-                          ? 'border-primary bg-orange-50 text-primary' 
-                          : 'border-gray-200 hover:border-primary text-textMuted hover:text-primary'
+                          ? 'border-primary bg-orange-50 dark:bg-orange-950/40 text-primary' 
+                          : 'border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-850 hover:border-primary text-textMuted dark:text-neutral-300 hover:text-primary dark:hover:text-white'
                       }`}
                     >
                       <span className={`w-3 h-3 rounded-full mb-1 ${
@@ -648,13 +653,36 @@ export default function RestaurantPage() {
                 </div>
               </div>
 
+              {/* Dietary Preferences: Jain Mode */}
+              <div className="space-y-2.5">
+                <h4 className="font-bold text-textPrimary dark:text-neutral-100 uppercase tracking-wider text-[10px] text-textMuted dark:text-neutral-400 font-sans">Dietary Option</h4>
+                <label className="flex items-center justify-between p-3 border border-amber-200/90 dark:border-amber-900/60 bg-amber-50/60 dark:bg-amber-950/30 rounded-xl cursor-pointer hover:bg-amber-50 dark:hover:bg-amber-950/50 transition-colors">
+                  <div className="flex items-center space-x-2.5">
+                    <input 
+                      type="checkbox" 
+                      checked={isJainOption}
+                      onChange={() => setIsJainOption(!isJainOption)}
+                      className="rounded border-amber-400 text-amber-600 focus:ring-amber-500 w-4 h-4"
+                    />
+                    <div>
+                      <span className="font-bold text-gray-900 dark:text-neutral-100 flex items-center gap-1.5">
+                        <span>🌾</span>
+                        <span>Jain Preparation</span>
+                      </span>
+                      <p className="text-[10px] text-amber-800 dark:text-amber-400 mt-0.5">Cooked without onion, garlic, or root vegetables</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Free</span>
+                </label>
+              </div>
+
               {/* Extra Add-ons */}
               <div className="space-y-3">
-                <h4 className="font-bold text-textPrimary uppercase tracking-wider text-[10px] text-textMuted font-sans">Extra Add-ons</h4>
+                <h4 className="font-bold text-textPrimary dark:text-neutral-100 uppercase tracking-wider text-[10px] text-textMuted dark:text-neutral-400 font-sans">Extra Add-ons</h4>
                 <div className="space-y-2">
                   
                   {/* Cheese */}
-                  <label className="flex items-center justify-between p-3 border border-gray-150 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                  <label className="flex items-center justify-between p-3 border border-gray-150 dark:border-neutral-700 bg-white dark:bg-neutral-850 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                     <div className="flex items-center space-x-2.5">
                       <input 
                         type="checkbox" 
@@ -662,13 +690,13 @@ export default function RestaurantPage() {
                         onChange={() => setExtraCheese(!extraCheese)}
                         className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4"
                       />
-                      <span className="font-bold text-textPrimary">Extra Cheese</span>
+                      <span className="font-bold text-textPrimary dark:text-neutral-100">Extra Cheese</span>
                     </div>
                     <span className="font-extrabold text-primary">+₹30</span>
                   </label>
 
                   {/* Toppings */}
-                  <label className="flex items-center justify-between p-3 border border-gray-150 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                  <label className="flex items-center justify-between p-3 border border-gray-150 dark:border-neutral-700 bg-white dark:bg-neutral-850 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
                     <div className="flex items-center space-x-2.5">
                       <input 
                         type="checkbox" 
@@ -676,7 +704,7 @@ export default function RestaurantPage() {
                         onChange={() => setExtraToppings(!extraToppings)}
                         className="rounded border-gray-300 text-primary focus:ring-primary w-4 h-4"
                       />
-                      <span className="font-bold text-textPrimary">Fresh Veggie Toppings</span>
+                      <span className="font-bold text-textPrimary dark:text-neutral-100">Fresh Veggie Toppings</span>
                     </div>
                     <span className="font-extrabold text-primary">+₹20</span>
                   </label>
@@ -687,7 +715,7 @@ export default function RestaurantPage() {
             </div>
 
             {/* Modal Footer (Add button with Dynamic Price) */}
-            <div className="bg-gray-50 p-6 border-t border-gray-150 flex items-center justify-between">
+            <div className="bg-gray-50 dark:bg-neutral-850 p-6 border-t border-gray-150 dark:border-neutral-800 flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold text-textMuted block uppercase">Estimated Price</span>
                 <span className="text-xl font-extrabold text-primary">

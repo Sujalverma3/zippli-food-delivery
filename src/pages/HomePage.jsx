@@ -67,6 +67,11 @@ export default function HomePage() {
       } else if (dietFilter === 'non-veg') {
         const text = (r.cuisine + ' ' + r.name).toLowerCase();
         matchDiet = /non-veg|chicken|bbq|mutton|kebab|fish|meat|wings|biryani|burger/i.test(text);
+      } else if (dietFilter === 'jain') {
+        const text = (r.cuisine + ' ' + r.name).toLowerCase();
+        const hasJainFriendly = /veg|healthy|south indian|dessert|sweets|thali|sattvik|pure/i.test(text);
+        const hasMeatOrStrictNonJain = /non-veg|chicken|bbq|mutton|kebab|fish|meat|wings/i.test(text);
+        matchDiet = hasJainFriendly && !hasMeatOrStrictNonJain;
       }
 
       return matchSearch && matchCategory && matchNearby && matchDiet;
@@ -219,6 +224,28 @@ export default function HomePage() {
           dietFilter={dietFilter}
           setDietFilter={setDietFilter}
         />
+
+        {/* Jain Mode Banner Notice */}
+        {dietFilter === 'jain' && (
+          <div className="mb-6 p-3.5 rounded-2xl bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/60 flex items-center justify-between text-xs text-amber-900 dark:text-amber-300">
+            <div className="flex items-center gap-2.5">
+              <span className="text-lg">🌾</span>
+              <div>
+                <span className="font-bold">Jain Friendly Mode Active</span>
+                <p className="text-[11px] text-amber-800 dark:text-amber-400 mt-0.5">
+                  Filtering kitchens and restaurants offering meals cooked without onion, garlic, or root vegetables.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDietFilter('all')}
+              className="text-[11px] font-bold text-amber-700 dark:text-amber-400 hover:underline shrink-0 ml-3"
+            >
+              Clear
+            </button>
+          </div>
+        )}
 
         {/* Restaurant Grid */}
         {filteredRestaurants.length === 0 ? (
