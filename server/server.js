@@ -33,6 +33,29 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/support', supportRoutes);
 
+// Health check endpoint for monitoring & uptime
+app.get('/api/health', (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const dbStatusMap = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+  res.status(200).json({
+    status: 'ok',
+    uptime: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+    database: {
+      status: dbStatusMap[dbState] || 'unknown',
+      mode: dbState === 1 ? 'mongodb' : 'in-memory-fallback'
+    },
+    memory: {
+      heapUsedMB: Math.round(process.memoryUsage().heapUsed / 1024 / 1024)
+    }
+  });
+});
+
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/zippli';
 
 // Add connection error listener to prevent uncaught exception crashes
@@ -65,6 +88,16 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing HTTP server');
+  server.close(async () => {
+    if (mongoose.connection.readyState === 1) {
+      await mongoose.connection.close();
+    }
+    process.exit(0);
+  });
 });
