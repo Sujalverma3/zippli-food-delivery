@@ -4,97 +4,89 @@ import { motion } from 'framer-motion';
 const CATEGORIES = [
   {
     name: 'All',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-      </svg>
-    )
-  },
-  {
-    name: 'Pizza',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 12h18M12 3a9 9 0 100 18 9 9 0 000-18z" />
-      </svg>
-    )
-  },
-  {
-    name: 'Burgers',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M3 8a3 3 0 016 0h6a3 3 0 016 0m-18 8a3 3 0 006 0h6a3 3 0 006 0" />
-      </svg>
-    )
+    image: null,
+    isAll: true,
   },
   {
     name: 'Biryani',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v4M8 12h8m-9 4h10M4 8h16v8H4V8z" />
-      </svg>
-    )
+    image: '/images/biryani.png',
   },
   {
-    name: 'Sushi',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M3 14h18m-9-6V4M12 20v-2" />
-      </svg>
-    )
+    name: 'Pizza',
+    image: '/images/pizza.png',
   },
   {
-    name: 'Desserts',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zm0 0h4m-4 0H8m12 3v10a2 2 0 01-2 2H6a2 2 0 01-2-2V11h16z" />
-      </svg>
-    )
-  },
-  {
-    name: 'Healthy',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707" />
-      </svg>
-    )
+    name: 'Burgers',
+    image: '/images/burger.png',
   },
   {
     name: 'Chinese',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 8h16M4 12h16M4 16h16M3 20h18" />
-      </svg>
-    )
+    image: '/images/chinese.png',
   },
   {
     name: 'South Indian',
-    icon: (
-      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-6-6h12M4 8h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2v-6a2 2 0 012-2z" />
-      </svg>
-    )
-  }
+    image: '/images/south_indian.png',
+  },
+  {
+    name: 'Desserts',
+    image: '/images/desserts.png',
+  },
+  {
+    name: 'Sushi',
+    image: '/images/sushi.png',
+  },
+  {
+    name: 'Healthy',
+    image: '/images/healthy.png',
+  },
 ];
 
 export default function CategoryChips({ activeCategory, setActiveCategory }) {
   return (
-    <div className="flex items-center space-x-3 overflow-x-auto py-4 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
-      {CATEGORIES.map((cat) => (
-        <motion.button
-          key={cat.name}
-          onClick={() => setActiveCategory(cat.name)}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap shadow-sm border transition-colors duration-150 ${
-            activeCategory === cat.name
-              ? 'bg-gray-900 border-gray-900 text-white shadow-sm'
-              : 'bg-white border-gray-200/90 hover:border-gray-300 text-gray-700'
-          }`}
-        >
-          <span className={activeCategory === cat.name ? 'text-white' : 'text-primary'}>{cat.icon}</span>
-          <span>{cat.name}</span>
-        </motion.button>
-      ))}
+    <div className="flex items-center space-x-6 md:space-x-8 overflow-x-auto py-3 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+      {CATEGORIES.map((cat) => {
+        const isActive = activeCategory === cat.name;
+        return (
+          <motion.button
+            key={cat.name}
+            onClick={() => setActiveCategory(cat.name)}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex flex-col items-center shrink-0 group focus:outline-none"
+          >
+            {/* Circular Dish Avatar */}
+            <div
+              className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden flex items-center justify-center transition-all duration-200 ${
+                isActive
+                  ? 'ring-2 ring-primary ring-offset-2 shadow-md bg-orange-50'
+                  : 'bg-gray-100 hover:shadow-sm border border-gray-100'
+              }`}
+            >
+              {cat.isAll ? (
+                <div className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-gray-600'}`}>
+                  <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+                  </svg>
+                </div>
+              ) : (
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+              )}
+            </div>
+            {/* Label */}
+            <span
+              className={`text-xs md:text-sm mt-2 font-medium transition-colors ${
+                isActive ? 'text-primary font-bold' : 'text-gray-700 group-hover:text-gray-900'
+              }`}
+            >
+              {cat.name}
+            </span>
+          </motion.button>
+        );
+      })}
     </div>
   );
 }

@@ -226,117 +226,58 @@ export default function RestaurantPage() {
         <span className="text-textPrimary font-medium">{restaurant.name}</span>
       </div>
 
-      {/* Hero Section */}
-      <div className="relative rounded-3xl overflow-hidden mb-8 shadow-lg">
-        <div className="relative h-64 md:h-80">
-          <img
-            src={restaurant.image}
-            alt={restaurant.name}
-            className="w-full h-full object-cover animate-fade-in"
-            onError={(e) => {
-              e.target.style.display = 'none';
-              e.target.parentElement.className += ` bg-gradient-to-br ${restaurant.gradient || 'from-orange-400 to-red-500'}`;
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-            <div>
-              {restaurant.discount && (
-                <span className="inline-block text-[10px] font-extrabold uppercase tracking-widest bg-primary px-3 py-1 rounded-full mb-3 shadow-lg">
-                  {restaurant.discount}
-                </span>
-              )}
-              <h1 className="text-3xl md:text-4xl font-extrabold drop-shadow-lg">{restaurant.name}</h1>
-              <p className="text-orange-200 text-sm mt-1.5 font-medium">{restaurant.cuisine}</p>
-
-              {restaurant.tags && restaurant.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {restaurant.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] font-bold bg-white bg-opacity-20 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white border-opacity-20">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+      {/* Swiggy-style Restaurant Header Card */}
+      <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-sm mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-gray-100">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 bg-orange-50 text-primary rounded border border-orange-200">
+                {restaurant.discount || 'Special Offers Available'}
+              </span>
             </div>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+              {restaurant.name}
+            </h1>
+            <p className="text-sm text-gray-500 mt-1 font-medium">{restaurant.cuisine}</p>
+            <p className="text-xs text-gray-400 mt-0.5">
+              {restaurant.address || 'Local Kitchen, Connaught Place'}
+              {distanceStr && <span> • {distanceStr}</span>}
+            </p>
+          </div>
 
-            <div className="flex items-center gap-3 text-xs font-semibold bg-white bg-opacity-15 backdrop-blur-md p-4 rounded-2xl border border-white border-opacity-10 shrink-0">
-              <div className="flex items-center text-yellow-300 gap-1.5">
-                <svg className="w-4 h-4 text-yellow-350 fill-yellow-350 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <span className="font-bold text-base">{avgRating}</span>
-              </div>
-              <div className="w-px h-6 bg-white bg-opacity-30"></div>
-              <div className="text-center">
-                <span className="block font-bold">{restaurant.deliveryTime}</span>
-                <span className="text-[10px] text-gray-300">Delivery</span>
-              </div>
-              <div className="w-px h-6 bg-white bg-opacity-30"></div>
-              <div className="text-center">
-                <span className="block font-bold">₹{restaurant.minOrder}</span>
-                <span className="text-[10px] text-gray-300">Min Order</span>
-              </div>
+          {/* Rating Box */}
+          <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto p-3.5 bg-gray-50 rounded-2xl border border-gray-200/80 shrink-0">
+            <div className="flex items-center gap-1.5 text-emerald-700 font-extrabold text-base">
+              <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">★</span>
+              <span>{avgRating}</span>
             </div>
+            <span className="text-[11px] text-gray-400 font-semibold mt-0.5">
+              {restaurant.reviews?.length ? `${restaurant.reviews.length * 40}+ ratings` : '500+ ratings'}
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Info Cards Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-        {[
-          { 
-            icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>, 
-            label: 'Rating', 
-            value: `${avgRating} / 5`, 
-            color: 'text-yellow-500', 
-            bg: 'bg-yellow-50' 
-          },
-          { 
-            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
-            label: 'Delivery Time', 
-            value: restaurant.deliveryTime, 
-            color: 'text-blue-500', 
-            bg: 'bg-blue-50' 
-          },
-          distanceStr ? { 
-            icon: (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            ), 
-            label: 'Distance', 
-            value: distanceStr, 
-            color: 'text-orange-500', 
-            bg: 'bg-orange-50' 
-          } : null,
-          { 
-            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>, 
-            label: 'Phone', 
-            value: restaurant.phone || 'N/A', 
-            color: 'text-green-500', 
-            bg: 'bg-green-50' 
-          },
-          { 
-            icon: <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
-            label: 'Hours', 
-            value: restaurant.openingHours || 'All Day', 
-            color: 'text-purple-500', 
-            bg: 'bg-purple-50' 
-          },
-        ].filter(Boolean).map((card, idx) => (
-          <div key={idx} className="bg-white rounded-xl p-4 shadow-card border border-gray-100 flex items-center space-x-3">
-            <div className={`w-10 h-10 rounded-lg ${card.bg} flex items-center justify-center ${card.color} shrink-0`}>{card.icon}</div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-textMuted uppercase tracking-wider block">{card.label}</span>
-              <span className="text-xs font-bold text-textPrimary truncate block">{card.value}</span>
-            </div>
+        {/* Delivery & Ordering Info Strip */}
+        <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-gray-700">
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{restaurant.deliveryTime} Delivery Time</span>
           </div>
-        ))}
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>₹{restaurant.minOrder} Min. Order</span>
+          </div>
+          <div className="flex items-center gap-2 text-emerald-700">
+            <svg className="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Free delivery on orders above ₹299</span>
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -393,39 +334,50 @@ export default function RestaurantPage() {
                         {items.map((item) => {
                           const qty = getBaseQty(item.id);
                           return (
-                            <div key={item.id} className="py-5 first:pt-0 last:pb-0 flex justify-between items-start gap-4">
-                              <div className="flex-grow">
-                                <h3 className="text-base font-bold text-textPrimary flex items-center space-x-2">
-                                  <span>{item.name}</span>
+                            <div key={item.id} className="py-6 first:pt-0 last:pb-0 flex justify-between items-start gap-4">
+                              <div className="flex-grow pr-2">
+                                {/* Swiggy Veg indicator */}
+                                <div className="flex items-center gap-2 mb-1.5">
+                                  <span className="w-3.5 h-3.5 rounded-sm border border-emerald-600 flex items-center justify-center p-0.5 shrink-0">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                                  </span>
                                   {isCustomizable && (
-                                    <span className="text-[9px] bg-orange-50 text-primary border border-orange-100 px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wide">
-                                      Customizable
+                                    <span className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                                      Customisable
                                     </span>
                                   )}
+                                </div>
+                                <h3 className="text-base font-bold text-gray-900">
+                                  {item.name}
                                 </h3>
-                                <p className="text-sm font-extrabold text-primary mt-1">₹{item.price}</p>
-                                <p className="text-xs text-textMuted mt-1.5 leading-relaxed pr-4">{item.description}</p>
+                                <p className="text-sm font-bold text-gray-800 mt-1">₹{item.price}</p>
+                                <p className="text-xs text-gray-500 mt-1.5 leading-relaxed line-clamp-2">{item.description}</p>
                               </div>
-                              <div className="flex-shrink-0 flex flex-col items-center space-y-2">
-                                <div className="w-24 h-20 rounded-xl overflow-hidden shadow-inner relative flex-shrink-0 bg-gray-150 border border-gray-100 flex items-center justify-center">
+
+                              {/* Swiggy Image & Floating ADD button */}
+                              <div className="flex-shrink-0 flex flex-col items-center">
+                                <div className="w-32 h-24 sm:w-36 sm:h-26 rounded-2xl overflow-hidden shadow-sm relative bg-gray-100 border border-gray-150">
                                   <img
                                     src={item.image || (category === 'starters' ? '/images/healthy.png' : category === 'desserts' ? '/images/desserts.png' : restaurant.image)}
                                     alt={item.name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {
                                       e.target.style.display = 'none';
-                                      e.target.parentElement.innerHTML = `<div class="text-primary flex items-center justify-center w-full h-full bg-orange-50 bg-opacity-40"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>`;
+                                      e.target.parentElement.innerHTML = `<div class="text-primary flex items-center justify-center w-full h-full bg-orange-50"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>`;
                                     }}
                                   />
                                 </div>
                                 
                                 <button 
                                   onClick={() => handleAddItemClick(item, isCustomizable)} 
-                                  className="bg-white hover:bg-orange-50 text-primary border border-gray-200 hover:border-primary px-5 py-1.5 rounded-lg text-xs font-extrabold shadow-sm transition-all transform active:scale-95 flex items-center space-x-1"
+                                  className="relative -mt-4 bg-white hover:bg-gray-50 text-emerald-600 border border-gray-200/90 shadow-md px-6 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all transform active:scale-95 flex items-center space-x-1.5"
                                 >
-                                  <span>+ ADD</span>
-                                  {qty > 0 && <span className="bg-primary text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">{qty}</span>}
+                                  <span>ADD</span>
+                                  {qty > 0 && <span className="bg-emerald-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{qty}</span>}
                                 </button>
+                                {isCustomizable && (
+                                  <span className="text-[10px] text-gray-400 font-medium mt-1">Customisable</span>
+                                )}
                               </div>
                             </div>
                           );

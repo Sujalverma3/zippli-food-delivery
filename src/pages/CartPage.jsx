@@ -201,8 +201,11 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-      <Link to="/" className="text-primary hover:text-orange-600 font-bold mb-6 inline-block transition-all text-xs">
-        ← Back to Customer App
+      <Link to="/" className="text-gray-500 hover:text-primary font-medium mb-6 inline-flex items-center gap-1.5 transition-colors text-xs">
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Back to Restaurants</span>
       </Link>
       <h1 className="text-2xl font-extrabold text-textPrimary mb-8">Secure Checkout</h1>
 
@@ -332,7 +335,7 @@ export default function CartPage() {
                 { 
                   id: 'card', 
                   name: 'Credit/Debit Card', 
-                  desc: 'Simulated payment popup', 
+                  desc: 'Visa, Mastercard, RuPay', 
                   icon: (
                     <svg className="w-6 h-6 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
@@ -342,7 +345,7 @@ export default function CartPage() {
                 { 
                   id: 'upi', 
                   name: 'UPI / NetBanking', 
-                  desc: 'Simulated mobile flow', 
+                  desc: 'Google Pay, PhonePe, Paytm', 
                   icon: (
                     <svg className="w-6 h-6 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />

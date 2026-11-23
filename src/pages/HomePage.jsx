@@ -82,56 +82,29 @@ export default function HomePage() {
   }
 
   const offers = [
-    { code: 'ZIPPLI50', title: '50% OFF UP TO ₹100', desc: 'On orders above ₹150', tag: 'FIRST ORDER' },
-    { code: 'WELCOME20', title: 'FREE DELIVERY', desc: 'On all orders above ₹299', tag: 'ZERO FEE' },
-    { code: 'SUPER75', title: 'FLAT ₹100 OFF', desc: 'On orders above ₹399', tag: 'FESTIVE DEAL' },
+    { code: 'ZIPPLI50', title: '50% OFF UP TO ₹100', desc: 'On orders above ₹150' },
+    { code: 'WELCOME20', title: 'FREE DELIVERY', desc: 'On all orders above ₹299' },
+    { code: 'SUPER75', title: 'FLAT ₹100 OFF', desc: 'On orders above ₹399' },
   ];
+
+  const cityLabel = userLocation?.addressLabel || 'your area';
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 font-sans">
-      {/* Welcome Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        className="relative rounded-2xl overflow-hidden mb-8 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 shadow-sm"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_60%)]"></div>
-        <div className="relative z-10 px-6 py-8 md:px-10 md:py-10 flex flex-col md:flex-row md:items-center justify-between gap-6 text-white">
-          <div className="max-w-xl">
-            <span className="inline-block text-xs font-semibold tracking-wide uppercase px-2.5 py-1 bg-white/20 backdrop-blur-sm rounded-md mb-2">
-              Fast & Fresh Delivery
-            </span>
-            <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
-              Food delivery from your favorite local spots
-            </h1>
-            <p className="text-sm md:text-base text-white/90 mt-2 font-normal">
-              Order from top rated kitchens, track your delivery live, and enjoy hot food in 25-35 minutes.
-            </p>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="#restaurant-section"
-              className="bg-white text-gray-900 font-semibold px-5 py-2.5 rounded-xl text-sm shadow hover:bg-gray-50 transition-colors"
-            >
-              Browse Restaurants
-            </a>
-            <a
-              href="/partner.html"
-              className="bg-white/15 hover:bg-white/25 text-white font-medium px-4 py-2.5 rounded-xl text-sm border border-white/20 transition-colors"
-            >
-              Partner Portal
-            </a>
-          </div>
-        </div>
-      </motion.div>
+      {/* 1. Swiggy "What's on your mind?" Cuisine Carousel */}
+      <section className="mb-8">
+        <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight mb-4">
+          What's on your mind?
+        </h2>
+        <CategoryChips activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+        <div className="border-b border-gray-200/70 mt-6"></div>
+      </section>
 
-      {/* Deals & Coupons Rail */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            <span>Deals & Coupons</span>
-            <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Save big</span>
+      {/* 2. Deals / Vouchers Section */}
+      <section className="mb-10">
+        <div className="flex items-center justify-between mb-3.5">
+          <h2 className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+            <span>Deals for you</span>
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -140,158 +113,143 @@ export default function HomePage() {
               key={offer.code}
               whileHover={{ y: -2 }}
               onClick={() => handleCopyCode(offer.code)}
-              className="bg-white rounded-xl p-4 border border-gray-200/90 shadow-sm hover:shadow transition-all cursor-pointer flex items-center justify-between group"
+              className="bg-white rounded-xl p-3.5 border border-gray-200/90 shadow-sm hover:border-primary/40 transition-all cursor-pointer flex items-center justify-between group"
             >
-              <div>
-                <span className="text-[10px] font-bold tracking-wider uppercase text-primary bg-orange-50 px-2 py-0.5 rounded">
-                  {offer.tag}
-                </span>
-                <h3 className="text-sm font-bold text-gray-900 mt-1">{offer.title}</h3>
-                <p className="text-xs text-gray-500 mt-0.5">{offer.desc}</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 text-primary flex items-center justify-center shrink-0">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-xs font-bold text-gray-900">{offer.title}</h3>
+                  <p className="text-[11px] text-gray-500 mt-0.5">{offer.desc}</p>
+                </div>
               </div>
-              <div className="text-right shrink-0 ml-3">
-                <span className="inline-block text-xs font-mono font-bold px-2.5 py-1 bg-gray-100 group-hover:bg-orange-100 group-hover:text-primary rounded border border-gray-200 transition-colors">
+              <div className="text-right shrink-0 ml-2">
+                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-gray-100 group-hover:bg-primary group-hover:text-white rounded border border-gray-200 transition-colors">
                   {copiedCode === offer.code ? 'Copied!' : offer.code}
                 </span>
-                <span className="block text-[10px] text-gray-400 mt-1">Tap to copy</span>
               </div>
             </motion.div>
           ))}
         </div>
-      </div>
+        <div className="border-b border-gray-200/70 mt-8"></div>
+      </section>
 
-      {/* Cuisines Section */}
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">What's on your mind?</h2>
-        <CategoryChips activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-      </div>
+      {/* 3. Main Restaurant Listing */}
+      <section id="restaurant-section" className="scroll-mt-24">
+        <div className="mb-4">
+          <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">
+            Restaurants with online food delivery in {cityLabel}
+          </h2>
+        </div>
 
-      {/* Filter Bar */}
-      <div id="restaurant-section" className="scroll-mt-24">
+        {/* Filter Pills */}
         <FilterBar
           activeSort={activeSort}
           setActiveSort={setActiveSort}
           onlyNearby={onlyNearby}
           setOnlyNearby={setOnlyNearby}
         />
-      </div>
 
-      {/* Restaurant Section Heading */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-gray-900">
-          {filteredRestaurants.length} Restaurants delivering to you
-        </h2>
-      </div>
-
-      {/* Restaurant Grid */}
-      {filteredRestaurants.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 className="text-sm font-bold text-gray-800">No restaurants found</h3>
-          <p className="text-gray-500 text-xs mt-1">
-            {onlyNearby 
-              ? "Try unchecking 'Nearby Only' or change your delivery location above." 
-              : "Try choosing another category or clearing your search filter."}
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredRestaurants.map((res, index) => {
-            const distanceStr = getHaversineDistance(
-              userLocation?.lat,
-              userLocation?.lng,
-              res.lat,
-              res.lng
-            );
-            return (
-              <motion.div
-                key={res.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.2) }}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              >
-                <Link
-                  to={`/restaurant/${res.id}`}
-                  className="group bg-white rounded-2xl overflow-hidden border border-gray-150 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col h-full"
+        {/* Restaurant Grid */}
+        {filteredRestaurants.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
+            <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-sm font-bold text-gray-800">No restaurants found</h3>
+            <p className="text-gray-500 text-xs mt-1">
+              {onlyNearby 
+                ? "Try turning off 'Nearby Only' or change your location above." 
+                : "Try choosing another category or clearing your search filter."}
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8">
+            {filteredRestaurants.map((res, index) => {
+              const distanceStr = getHaversineDistance(
+                userLocation?.lat,
+                userLocation?.lng,
+                res.lat,
+                res.lng
+              );
+              return (
+                <motion.div
+                  key={res.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: Math.min(index * 0.03, 0.2) }}
                 >
-                  {/* Photo Container */}
-                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                    <img
-                      src={res.image}
-                      alt={res.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = `<div class="w-full h-full bg-gradient-to-br ${res.gradient} flex items-center justify-center text-white font-bold text-lg p-4 text-center"><span>${res.name}</span></div>`;
-                      }}
-                    />
-                    {/* Bottom gradient overlay for discount */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-
-                    {/* Integrated Discount Ribbon */}
-                    {res.discount && (
-                      <div className="absolute bottom-2.5 left-3 text-white font-extrabold text-sm md:text-base tracking-tight drop-shadow">
-                        {res.discount}
+                  <Link
+                    to={`/restaurant/${res.id}`}
+                    className="group block transition-transform duration-150 ease-out hover:scale-[0.97]"
+                  >
+                    {/* Swiggy-style Photo Container */}
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-sm bg-gray-100">
+                      <img
+                        src={res.image}
+                        alt={res.name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = `<div class="w-full h-full bg-gradient-to-br ${res.gradient} flex items-center justify-center text-white font-bold text-lg p-4 text-center"><span>${res.name}</span></div>`;
+                        }}
+                      />
+                      {/* Dark bottom scrim */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent flex items-end px-3 pb-2">
+                        {/* Integrated Swiggy Discount Overlay */}
+                        {res.discount && (
+                          <span className="text-white font-black text-base md:text-lg uppercase tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] line-clamp-1">
+                            {res.discount}
+                          </span>
+                        )}
                       </div>
-                    )}
-
-                    {/* Delivery Time Badge */}
-                    <div className="absolute top-2.5 right-2.5 bg-white/95 backdrop-blur-sm text-gray-800 text-[11px] font-bold px-2 py-0.5 rounded-md shadow-sm">
-                      {res.deliveryTime}
                     </div>
-                  </div>
 
-                  {/* Card Info */}
-                  <div className="p-3.5 flex-grow flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-base font-bold text-gray-900 group-hover:text-primary transition-colors truncate">
+                    {/* Swiggy-style Typography Stack below image */}
+                    <div className="pt-2.5 px-0.5">
+                      {/* Name */}
+                      <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors truncate">
                         {res.name}
                       </h3>
 
-                      {/* Ratings & Time Row */}
-                      <div className="flex items-center gap-1.5 text-xs text-gray-600 mt-1">
-                        <span className="inline-flex items-center gap-0.5 bg-emerald-600 text-white text-[11px] font-bold px-1.5 py-0.5 rounded">
-                          <span>★</span>
-                          <span>{res.rating}</span>
+                      {/* Rating • Delivery Time • Distance */}
+                      <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-gray-800 mt-0.5">
+                        <span className="inline-flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-emerald-600 text-white text-[10px] md:text-[11px] font-black shrink-0">
+                          ★
                         </span>
-                        <span className="text-gray-300 font-bold">•</span>
-                        <span className="font-semibold text-gray-700">{res.deliveryTime}</span>
+                        <span>{res.rating}</span>
+                        <span className="text-gray-400 font-normal">•</span>
+                        <span>{res.deliveryTime}</span>
                         {distanceStr && (
                           <>
-                            <span className="text-gray-300 font-bold">•</span>
-                            <span className="text-gray-500">{distanceStr}</span>
+                            <span className="text-gray-400 font-normal">•</span>
+                            <span className="text-gray-500 font-normal text-xs">{distanceStr}</span>
                           </>
                         )}
                       </div>
 
                       {/* Cuisines */}
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-1">
+                      <p className="text-xs md:text-sm text-gray-500 truncate mt-0.5 font-normal">
                         {res.cuisine}
                       </p>
 
-                      {/* Address area */}
+                      {/* Area Address */}
                       {res.address && (
-                        <p className="text-[11px] text-gray-400 mt-0.5 truncate">
+                        <p className="text-xs text-gray-400 truncate font-normal">
                           {res.address.split(',').slice(-2).join(',').trim() || res.address}
                         </p>
                       )}
                     </div>
-
-                    {/* Min order tag */}
-                    <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-500 font-medium">
-                      <span>Min. order ₹{res.minOrder}</span>
-                      <span className="text-primary font-semibold group-hover:underline">View Menu →</span>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            );
-          })}
-        </div>
-      )}
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
