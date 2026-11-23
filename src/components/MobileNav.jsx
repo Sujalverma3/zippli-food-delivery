@@ -50,7 +50,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 inset-x-0 h-16 bg-white border-t border-gray-200/90 z-50 md:hidden flex items-center justify-around px-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] safe-area-pb">
+    <nav className="fixed bottom-0 inset-x-0 h-16 bg-white dark:bg-[#111217] border-t border-gray-200/90 dark:border-neutral-800 z-50 md:hidden flex items-center justify-around px-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] safe-area-pb transition-colors duration-200">
       {navItems.map((item) => {
         const isActive = pathname === item.to || (item.to.includes('search') && location.search.includes('search'));
         return (
@@ -58,7 +58,7 @@ export default function MobileNav() {
             key={item.label}
             to={item.to}
             className={`flex flex-col items-center justify-center py-1 px-3 relative transition-colors ${
-              isActive ? 'text-primary font-bold' : 'text-gray-500 font-medium'
+              isActive ? 'text-primary font-bold' : 'text-gray-500 dark:text-neutral-400 font-medium'
             }`}
           >
             <div className="relative">

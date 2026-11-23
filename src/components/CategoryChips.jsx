@@ -58,12 +58,12 @@ export default function CategoryChips({ activeCategory, setActiveCategory }) {
             <div
               className={`w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden flex items-center justify-center transition-all duration-200 ${
                 isActive
-                  ? 'ring-2 ring-primary ring-offset-2 shadow-md bg-orange-50'
-                  : 'bg-gray-100 hover:shadow-sm border border-gray-100'
+                  ? 'ring-2 ring-primary ring-offset-2 dark:ring-offset-neutral-900 shadow-md bg-orange-50 dark:bg-orange-950/40'
+                  : 'bg-gray-100 dark:bg-neutral-800 hover:shadow-sm border border-gray-100 dark:border-neutral-800'
               }`}
             >
               {cat.isAll ? (
-                <div className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-gray-600'}`}>
+                <div className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-gray-600 dark:text-neutral-400'}`}>
                   <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                   </svg>
@@ -79,7 +79,7 @@ export default function CategoryChips({ activeCategory, setActiveCategory }) {
             {/* Label */}
             <span
               className={`text-xs md:text-sm mt-2 font-medium transition-colors ${
-                isActive ? 'text-primary font-bold' : 'text-gray-700 group-hover:text-gray-900'
+                isActive ? 'text-primary font-bold' : 'text-gray-700 dark:text-neutral-300 group-hover:text-gray-900 dark:group-hover:text-white'
               }`}
             >
               {cat.name}

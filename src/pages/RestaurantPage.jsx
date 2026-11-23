@@ -227,38 +227,38 @@ export default function RestaurantPage() {
       </div>
 
       {/* Swiggy-style Restaurant Header Card */}
-      <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-150 shadow-sm mb-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-gray-100">
+      <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 border border-gray-150 dark:border-neutral-800 shadow-sm mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-gray-100 dark:border-neutral-800">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 bg-orange-50 text-primary rounded border border-orange-200">
+              <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 bg-orange-50 dark:bg-orange-950/40 text-primary rounded border border-orange-200 dark:border-orange-900">
                 {restaurant.discount || 'Special Offers Available'}
               </span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-neutral-100 tracking-tight">
               {restaurant.name}
             </h1>
-            <p className="text-sm text-gray-500 mt-1 font-medium">{restaurant.cuisine}</p>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-sm text-gray-500 dark:text-neutral-400 mt-1 font-medium">{restaurant.cuisine}</p>
+            <p className="text-xs text-gray-400 dark:text-neutral-500 mt-0.5">
               {restaurant.address || 'Local Kitchen, Connaught Place'}
               {distanceStr && <span> • {distanceStr}</span>}
             </p>
           </div>
 
           {/* Rating Box */}
-          <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto p-3.5 bg-gray-50 rounded-2xl border border-gray-200/80 shrink-0">
-            <div className="flex items-center gap-1.5 text-emerald-700 font-extrabold text-base">
+          <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto p-3.5 bg-gray-50 dark:bg-neutral-850 rounded-2xl border border-gray-200/80 dark:border-neutral-800 shrink-0">
+            <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-extrabold text-base">
               <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">★</span>
               <span>{avgRating}</span>
             </div>
-            <span className="text-[11px] text-gray-400 font-semibold mt-0.5">
+            <span className="text-[11px] text-gray-400 dark:text-neutral-500 font-semibold mt-0.5">
               {restaurant.reviews?.length ? `${restaurant.reviews.length * 40}+ ratings` : '500+ ratings'}
             </span>
           </div>
         </div>
 
         {/* Delivery & Ordering Info Strip */}
-        <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-gray-700">
+        <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-gray-700 dark:text-neutral-300">
           <div className="flex items-center gap-2">
             <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -322,15 +322,15 @@ export default function RestaurantPage() {
                   const isCustomizable = category === 'mains';
                   
                   return (
-                    <div key={category} className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-                      <h2 className="text-lg font-extrabold text-textPrimary capitalize border-b border-gray-100 pb-3 mb-4 flex items-center justify-between">
+                    <div key={category} className="bg-white dark:bg-[#16171e] rounded-2xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+                      <h2 className="text-lg font-extrabold text-textPrimary dark:text-neutral-100 capitalize border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4 flex items-center justify-between">
                         <span className="flex items-center space-x-2.5">
                           {getCategoryIcon(category)}
                           <span>{category}</span>
                         </span>
-                        <span className="text-xs bg-gray-100 text-textMuted px-2.5 py-1 rounded-full font-medium">{items.length} Items</span>
+                        <span className="text-xs bg-gray-100 dark:bg-neutral-800 text-textMuted dark:text-neutral-400 px-2.5 py-1 rounded-full font-medium">{items.length} Items</span>
                       </h2>
-                      <div className="divide-y divide-gray-100">
+                      <div className="divide-y divide-gray-100 dark:divide-neutral-800">
                         {items.map((item) => {
                           const qty = getBaseQty(item.id);
                           return (
@@ -342,21 +342,21 @@ export default function RestaurantPage() {
                                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                                   </span>
                                   {isCustomizable && (
-                                    <span className="text-[10px] text-amber-700 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                                    <span className="text-[10px] text-amber-700 bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-900 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
                                       Customisable
                                     </span>
                                   )}
                                 </div>
-                                <h3 className="text-base font-bold text-gray-900">
+                                <h3 className="text-base font-bold text-gray-900 dark:text-neutral-100">
                                   {item.name}
                                 </h3>
-                                <p className="text-sm font-bold text-gray-800 mt-1">₹{item.price}</p>
-                                <p className="text-xs text-gray-500 mt-1.5 leading-relaxed line-clamp-2">{item.description}</p>
+                                <p className="text-sm font-bold text-gray-800 dark:text-neutral-200 mt-1">₹{item.price}</p>
+                                <p className="text-xs text-gray-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">{item.description}</p>
                               </div>
 
                               {/* Swiggy Image & Floating ADD button */}
                               <div className="flex-shrink-0 flex flex-col items-center">
-                                <div className="w-32 h-24 sm:w-36 sm:h-26 rounded-2xl overflow-hidden shadow-sm relative bg-gray-100 border border-gray-150">
+                                <div className="w-32 h-24 sm:w-36 sm:h-26 rounded-2xl overflow-hidden shadow-sm relative bg-gray-100 dark:bg-neutral-800 border border-gray-150 dark:border-neutral-800">
                                   <img
                                     src={item.image || (category === 'starters' ? '/images/healthy.png' : category === 'desserts' ? '/images/desserts.png' : restaurant.image)}
                                     alt={item.name}
@@ -370,13 +370,13 @@ export default function RestaurantPage() {
                                 
                                 <button 
                                   onClick={() => handleAddItemClick(item, isCustomizable)} 
-                                  className="relative -mt-4 bg-white hover:bg-gray-50 text-emerald-600 border border-gray-200/90 shadow-md px-6 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all transform active:scale-95 flex items-center space-x-1.5"
+                                  className="relative -mt-4 bg-white dark:bg-neutral-850 hover:bg-gray-50 dark:hover:bg-neutral-800 text-emerald-600 dark:text-emerald-400 border border-gray-200/90 dark:border-neutral-700 shadow-md px-6 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all transform active:scale-95 flex items-center space-x-1.5"
                                 >
                                   <span>ADD</span>
                                   {qty > 0 && <span className="bg-emerald-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{qty}</span>}
                                 </button>
                                 {isCustomizable && (
-                                  <span className="text-[10px] text-gray-400 font-medium mt-1">Customisable</span>
+                                  <span className="text-[10px] text-gray-400 dark:text-neutral-500 font-medium mt-1">Customisable</span>
                                 )}
                               </div>
                             </div>

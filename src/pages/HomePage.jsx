@@ -109,17 +109,17 @@ export default function HomePage() {
 
       {/* 1. Swiggy "What's on your mind?" Cuisine Carousel */}
       <section className="mb-8">
-        <h2 className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-neutral-100 tracking-tight mb-4">
           What's on your mind?
         </h2>
         <CategoryChips activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-        <div className="border-b border-neutral-100 mt-6"></div>
+        <div className="border-b border-neutral-100 dark:border-neutral-800 mt-6"></div>
       </section>
 
       {/* 2. Deals / Vouchers Section */}
       <section className="mb-10">
         <div className="flex items-center justify-between mb-3.5">
-          <h2 className="text-lg md:text-xl font-bold text-neutral-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-neutral-900 dark:text-neutral-100 tracking-tight flex items-center gap-2">
             <span>Deals for you</span>
           </h2>
         </div>
@@ -129,34 +129,34 @@ export default function HomePage() {
               key={offer.code}
               whileHover={{ y: -2 }}
               onClick={() => handleCopyCode(offer.code)}
-              className="bg-white rounded-xl p-3.5 border border-neutral-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer flex items-center justify-between group"
+              className="bg-white dark:bg-[#16171e] rounded-xl p-3.5 border border-neutral-200/70 dark:border-neutral-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-primary/40 dark:hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 text-primary flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/40 text-primary flex items-center justify-center shrink-0">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-neutral-900">{offer.title}</h3>
-                  <p className="text-[11px] text-neutral-500 mt-0.5">{offer.desc}</p>
+                  <h3 className="text-xs font-bold text-neutral-900 dark:text-neutral-100">{offer.title}</h3>
+                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">{offer.desc}</p>
                 </div>
               </div>
               <div className="text-right shrink-0 ml-2">
-                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-neutral-100 group-hover:bg-primary group-hover:text-white rounded border border-neutral-200 transition-colors">
+                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 group-hover:bg-primary group-hover:text-white rounded border border-neutral-200 dark:border-neutral-700 transition-colors">
                   {copiedCode === offer.code ? 'Copied!' : offer.code}
                 </span>
               </div>
             </motion.div>
           ))}
         </div>
-        <div className="border-b border-neutral-100 mt-8"></div>
+        <div className="border-b border-neutral-100 dark:border-neutral-800 mt-8"></div>
       </section>
 
       {/* 3. Main Restaurant Listing */}
       <section id="restaurant-section" className="scroll-mt-24">
         <div className="mb-4">
-          <h2 className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-neutral-100 tracking-tight">
             Restaurants delivering to {cityLabel}
           </h2>
         </div>
@@ -171,12 +171,12 @@ export default function HomePage() {
 
         {/* Restaurant Grid */}
         {filteredRestaurants.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
-            <svg className="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+          <div className="text-center py-16 bg-white dark:bg-[#16171e] rounded-2xl border border-gray-200 dark:border-neutral-800 shadow-sm">
+            <svg className="w-12 h-12 text-gray-300 dark:text-neutral-600 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="text-sm font-bold text-gray-800">No restaurants found</h3>
-            <p className="text-gray-500 text-xs mt-1">
+            <h3 className="text-sm font-bold text-gray-800 dark:text-neutral-200">No restaurants found</h3>
+            <p className="text-gray-500 dark:text-neutral-400 text-xs mt-1">
               {onlyNearby 
                 ? "Try turning off 'Nearby Only' or change your location above." 
                 : "Try choosing another category or clearing your search filter."}
@@ -203,7 +203,7 @@ export default function HomePage() {
                     className="group block transition-transform duration-150 ease-out hover:scale-[0.97]"
                   >
                     {/* Swiggy-style Photo Container */}
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-sm bg-gray-100">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-sm bg-gray-100 dark:bg-neutral-800">
                       <img
                         src={res.image}
                         alt={res.name}
@@ -227,34 +227,34 @@ export default function HomePage() {
                     {/* Swiggy-style Typography Stack below image */}
                     <div className="pt-2.5 px-0.5">
                       {/* Name */}
-                      <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors truncate">
+                      <h3 className="text-base md:text-lg font-bold text-gray-900 dark:text-neutral-100 group-hover:text-primary transition-colors truncate">
                         {res.name}
                       </h3>
 
                       {/* Rating • Delivery Time • Distance */}
-                      <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-gray-800 mt-0.5">
+                      <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5">
                         <span className="inline-flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-emerald-600 text-white text-[10px] md:text-[11px] font-black shrink-0">
                           ★
                         </span>
                         <span>{res.rating}</span>
-                        <span className="text-gray-400 font-normal">•</span>
+                        <span className="text-gray-400 dark:text-neutral-500 font-normal">•</span>
                         <span>{res.deliveryTime}</span>
                         {distanceStr && (
                           <>
-                            <span className="text-gray-400 font-normal">•</span>
-                            <span className="text-gray-500 font-normal text-xs">{distanceStr}</span>
+                            <span className="text-gray-400 dark:text-neutral-500 font-normal">•</span>
+                            <span className="text-gray-500 dark:text-neutral-400 font-normal text-xs">{distanceStr}</span>
                           </>
                         )}
                       </div>
 
                       {/* Cuisines */}
-                      <p className="text-xs md:text-sm text-gray-500 truncate mt-0.5 font-normal">
+                      <p className="text-xs md:text-sm text-gray-500 dark:text-neutral-400 truncate mt-0.5 font-normal">
                         {res.cuisine}
                       </p>
 
                       {/* Area Address */}
                       {res.address && (
-                        <p className="text-xs text-gray-400 truncate font-normal">
+                        <p className="text-xs text-gray-400 dark:text-neutral-500 truncate font-normal">
                           {res.address.split(',').slice(-2).join(',').trim() || res.address}
                         </p>
                       )}
