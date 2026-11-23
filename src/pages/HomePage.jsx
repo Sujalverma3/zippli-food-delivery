@@ -109,17 +109,17 @@ export default function HomePage() {
 
       {/* 1. Swiggy "What's on your mind?" Cuisine Carousel */}
       <section className="mb-8">
-        <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight mb-4">
           What's on your mind?
         </h2>
         <CategoryChips activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
-        <div className="border-b border-gray-200/70 mt-6"></div>
+        <div className="border-b border-neutral-100 mt-6"></div>
       </section>
 
       {/* 2. Deals / Vouchers Section */}
       <section className="mb-10">
         <div className="flex items-center justify-between mb-3.5">
-          <h2 className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-neutral-900 tracking-tight flex items-center gap-2">
             <span>Deals for you</span>
           </h2>
         </div>
@@ -129,7 +129,7 @@ export default function HomePage() {
               key={offer.code}
               whileHover={{ y: -2 }}
               onClick={() => handleCopyCode(offer.code)}
-              className="bg-white rounded-xl p-3.5 border border-gray-200/90 shadow-sm hover:border-primary/40 transition-all cursor-pointer flex items-center justify-between group"
+              className="bg-white rounded-xl p-3.5 border border-neutral-200/70 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 text-primary flex items-center justify-center shrink-0">
@@ -138,26 +138,26 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-gray-900">{offer.title}</h3>
-                  <p className="text-[11px] text-gray-500 mt-0.5">{offer.desc}</p>
+                  <h3 className="text-xs font-bold text-neutral-900">{offer.title}</h3>
+                  <p className="text-[11px] text-neutral-500 mt-0.5">{offer.desc}</p>
                 </div>
               </div>
               <div className="text-right shrink-0 ml-2">
-                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-gray-100 group-hover:bg-primary group-hover:text-white rounded border border-gray-200 transition-colors">
+                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-neutral-100 group-hover:bg-primary group-hover:text-white rounded border border-neutral-200 transition-colors">
                   {copiedCode === offer.code ? 'Copied!' : offer.code}
                 </span>
               </div>
             </motion.div>
           ))}
         </div>
-        <div className="border-b border-gray-200/70 mt-8"></div>
+        <div className="border-b border-neutral-100 mt-8"></div>
       </section>
 
       {/* 3. Main Restaurant Listing */}
       <section id="restaurant-section" className="scroll-mt-24">
         <div className="mb-4">
-          <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">
-            Restaurants with online food delivery in {cityLabel}
+          <h2 className="text-xl md:text-2xl font-bold text-neutral-900 tracking-tight">
+            Restaurants delivering to {cityLabel}
           </h2>
         </div>
 
