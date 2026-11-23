@@ -26,7 +26,7 @@ export default function FilterBar({
           onClick={() => setOnlyNearby(!onlyNearby)}
           className={`px-3 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition-all duration-150 flex items-center gap-1.5 shrink-0 ${
             onlyNearby
-              ? 'bg-neutral-900 dark:bg-white border-neutral-900 dark:border-white text-white dark:text-neutral-900 shadow-sm'
+              ? 'bg-orange-50 dark:bg-orange-950/40 border-primary text-primary font-bold shadow-sm'
               : 'bg-white dark:bg-neutral-850 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-700 hover:text-neutral-900 dark:hover:text-white'
           }`}
         >
@@ -95,9 +95,9 @@ export default function FilterBar({
           <button
             key={opt.value}
             onClick={() => setActiveSort(opt.value)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition-colors duration-150 ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition-all duration-150 ${
               activeSort === opt.value
-                ? 'bg-neutral-900 dark:bg-white border-neutral-900 dark:border-white text-white dark:text-neutral-900 font-semibold shadow-sm'
+                ? 'bg-primary border-primary text-white font-semibold shadow-sm shadow-orange-500/20'
                 : 'bg-white dark:bg-neutral-850 border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-700 hover:text-neutral-900 dark:hover:text-white'
             }`}
           >

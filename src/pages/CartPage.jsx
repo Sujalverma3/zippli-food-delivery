@@ -477,7 +477,7 @@ export default function CartPage() {
           </div>
 
           {/* "Complete Your Meal" (Upsell Carousel) */}
-          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-5 shadow-card border border-gray-100 dark:border-neutral-800">
+          <div className="bg-white dark:bg-[#16171e] bg-gradient-to-br from-orange-500/[0.04] to-transparent dark:from-orange-500/[0.06] rounded-2xl p-5 shadow-card border border-orange-200/70 dark:border-orange-900/40">
             <div className="pb-3 mb-3 border-b border-gray-100 dark:border-neutral-800">
               <h3 className="text-xs font-bold text-gray-900 dark:text-neutral-100 uppercase tracking-wider flex items-center gap-1.5">
                 <span>✨ Complete Your Meal</span>
@@ -490,7 +490,7 @@ export default function CartPage() {
                 return (
                   <div
                     key={addon.id}
-                    className="p-2.5 rounded-xl border border-gray-150 dark:border-neutral-800/80 bg-gray-50/70 dark:bg-neutral-850/60 flex flex-col justify-between"
+                    className="p-2.5 rounded-xl border border-orange-100 dark:border-neutral-800 bg-white/80 dark:bg-neutral-850/60 shadow-2xs flex flex-col justify-between"
                   >
                     <div className="flex items-center gap-2">
                       <img src={addon.image} alt={addon.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
@@ -502,7 +502,7 @@ export default function CartPage() {
                     <button
                       type="button"
                       onClick={() => handleAddUpsell(addon)}
-                      className="mt-2 w-full py-1 text-[10px] font-bold uppercase rounded-lg border border-primary/40 text-primary hover:bg-primary hover:text-white transition-colors duration-150 text-center"
+                      className="mt-2 w-full py-1 text-[10px] font-bold uppercase rounded-lg border border-primary/50 text-primary hover:bg-primary hover:text-white transition-colors duration-150 text-center"
                     >
                       {alreadyInCart ? '+ Add More' : '+ ADD'}
                     </button>
@@ -512,22 +512,22 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl p-6 shadow-card border border-gray-100">
-            <h2 className="text-base font-extrabold text-textPrimary border-b border-gray-100 pb-3 mb-4 flex items-center space-x-2.5">
+          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-6 shadow-card border border-gray-100 dark:border-neutral-800">
+            <h2 className="text-base font-extrabold text-textPrimary dark:text-neutral-100 border-b border-gray-100 dark:border-neutral-800 pb-3 mb-4 flex items-center space-x-2.5">
               <svg className="w-5 h-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2zM9 16h6" />
               </svg>
               <span>Apply Coupon</span>
             </h2>
             {appliedCoupon ? (
-              <div className="bg-green-50 border border-green-200 rounded-xl p-3 flex justify-between items-center">
-                <div className="text-xs text-success">
+              <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 rounded-xl p-3 flex justify-between items-center">
+                <div className="text-xs text-emerald-700 dark:text-emerald-400">
                   <span className="font-bold block">Applied: {appliedCoupon}</span>
-                  <span className="text-[10px]">You saved ₹{discountAmount}!</span>
+                  <span className="text-[10px]">You saved ₹{discountAmount}! 🎉</span>
                 </div>
                 <button
                   onClick={removeCoupon}
-                  className="text-xs text-red-500 hover:text-red-700 font-bold transition-colors"
+                  className="text-xs text-rose-500 hover:text-rose-700 font-bold transition-colors"
                 >
                   REMOVE
                 </button>
@@ -565,26 +565,39 @@ export default function CartPage() {
                 <span className="font-medium text-textPrimary">₹{cartTotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div className="flex justify-between text-success">
+                <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
                   <span>Coupon Discount</span>
                   <span className="font-bold">-₹{discountAmount}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Delivery Partner Fee</span>
-                <span className="font-medium text-textPrimary">
-                  {deliveryFee === 0 ? <span className="text-success font-bold">FREE</span> : `₹${deliveryFee}`}
+                <span className="font-medium text-textPrimary dark:text-neutral-200">
+                  {deliveryFee === 0 ? <span className="text-emerald-600 dark:text-emerald-400 font-bold">FREE</span> : `₹${deliveryFee}`}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>GST (5%)</span>
-                <span className="font-medium text-textPrimary">₹{gst.toFixed(2)}</span>
+                <span className="font-medium text-textPrimary dark:text-neutral-200">₹{gst.toFixed(2)}</span>
               </div>
-              <div className="border-t border-dashed border-gray-200 pt-3 flex justify-between text-sm font-extrabold text-textPrimary">
+              <div className="border-t border-dashed border-gray-200 dark:border-neutral-700 pt-3 flex justify-between text-sm font-extrabold text-textPrimary dark:text-neutral-100">
                 <span>Total Payable</span>
                 <span className="text-primary text-base">₹{grandTotal.toFixed(2)}</span>
               </div>
             </div>
+
+            {/* Savings celebration pill */}
+            {(discountAmount > 0 || deliveryFee === 0) && (
+              <div className="mb-4 py-2 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex items-center justify-between">
+                <span className="flex items-center gap-1.5">
+                  <span>🎉</span>
+                  <span>Total savings on this order</span>
+                </span>
+                <span className="text-emerald-700 dark:text-emerald-400 font-extrabold">
+                  ₹{discountAmount + (deliveryFee === 0 ? 35 : 0)}
+                </span>
+              </div>
+            )}
 
             <button
               onClick={startCheckout}

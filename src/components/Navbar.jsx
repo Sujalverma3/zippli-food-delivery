@@ -98,13 +98,13 @@ export default function Navbar() {
       {/* Left: Swiggy-style Logo & Location Selector */}
       <div className="flex items-center space-x-5 md:space-x-8">
         <Link to="/" className="flex items-center space-x-2 group shrink-0">
-          <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-white shadow-sm shadow-orange-500/20 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-orange-500 via-amber-500 to-orange-400 flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M13 2L3 14h9l-1 8 10-10h-9l1-8z" fill="currentColor"/>
             </svg>
           </div>
           <span className="text-gray-900 dark:text-white group-hover:text-primary transition-colors text-2xl font-black tracking-tight font-sans">
-            zippli
+            zippli<span className="text-primary">.</span>
           </span>
         </Link>
         

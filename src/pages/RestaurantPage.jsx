@@ -232,11 +232,11 @@ export default function RestaurantPage() {
       </div>
 
       {/* Swiggy-style Restaurant Header Card */}
-      <div className="bg-white dark:bg-[#16171e] rounded-3xl p-6 md:p-8 border border-gray-150 dark:border-neutral-800 shadow-sm mb-8">
+      <div className="bg-white dark:bg-[#16171e] bg-gradient-to-br from-white via-white to-orange-50/20 dark:from-[#16171e] dark:via-[#16171e] dark:to-orange-950/10 rounded-3xl p-6 md:p-8 border border-gray-150 dark:border-neutral-800 shadow-sm mb-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-gray-100 dark:border-neutral-800">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 bg-orange-50 dark:bg-orange-950/40 text-primary rounded border border-orange-200 dark:border-orange-900">
+              <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/50 dark:to-amber-950/30 text-primary rounded border border-orange-200 dark:border-orange-850 shadow-2xs">
                 {restaurant.discount || 'Special Offers Available'}
               </span>
             </div>
@@ -251,12 +251,12 @@ export default function RestaurantPage() {
           </div>
 
           {/* Rating Box */}
-          <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto p-3.5 bg-gray-50 dark:bg-neutral-850 rounded-2xl border border-gray-200/80 dark:border-neutral-800 shrink-0">
+          <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto p-3.5 bg-emerald-50/60 dark:bg-emerald-950/30 rounded-2xl border border-emerald-200/70 dark:border-emerald-800/40 shrink-0">
             <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-extrabold text-base">
-              <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px]">★</span>
+              <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] shadow-xs">★</span>
               <span>{avgRating}</span>
             </div>
-            <span className="text-[11px] text-gray-400 dark:text-neutral-500 font-semibold mt-0.5">
+            <span className="text-[11px] text-emerald-800/70 dark:text-emerald-400/70 font-semibold mt-0.5">
               {restaurant.reviews?.length ? `${restaurant.reviews.length * 40}+ ratings` : '500+ ratings'}
             </span>
           </div>

@@ -136,15 +136,45 @@ export default function HomePage() {
   }
 
   const offers = [
-    { code: 'ZIPPLI50', title: '50% OFF UP TO ₹100', desc: 'On orders above ₹150' },
-    { code: 'WELCOME20', title: 'FREE DELIVERY', desc: 'On all orders above ₹299' },
-    { code: 'SUPER75', title: 'FLAT ₹100 OFF', desc: 'On orders above ₹399' },
+    {
+      code: 'ZIPPLI50',
+      title: '50% OFF UP TO ₹100',
+      desc: 'On orders above ₹150',
+      tag: 'RECOMMENDED',
+      bgGrad: 'bg-gradient-to-br from-orange-500/[0.06] via-amber-500/[0.02] to-transparent',
+      borderColor: 'border-orange-200/90 dark:border-orange-500/25',
+      iconBg: 'bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400',
+      pillColor: 'group-hover:bg-primary group-hover:border-primary',
+    },
+    {
+      code: 'WELCOME20',
+      title: 'FREE DELIVERY',
+      desc: 'On all orders above ₹299',
+      tag: 'INSTANT SAVE',
+      bgGrad: 'bg-gradient-to-br from-emerald-500/[0.06] via-teal-500/[0.02] to-transparent',
+      borderColor: 'border-emerald-200/90 dark:border-emerald-500/25',
+      iconBg: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400',
+      pillColor: 'group-hover:bg-emerald-600 group-hover:border-emerald-600',
+    },
+    {
+      code: 'SUPER75',
+      title: 'FLAT ₹100 OFF',
+      desc: 'On orders above ₹399',
+      tag: 'FESTIVE SPECIAL',
+      bgGrad: 'bg-gradient-to-br from-indigo-500/[0.06] via-purple-500/[0.02] to-transparent',
+      borderColor: 'border-indigo-200/90 dark:border-indigo-500/25',
+      iconBg: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400',
+      pillColor: 'group-hover:bg-indigo-600 group-hover:border-indigo-600',
+    },
   ];
 
   const cityLabel = userLocation?.addressLabel || 'your area';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 font-sans">
+    <div className="relative max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 font-sans">
+      {/* Subtle Warm Ambient Top Glow */}
+      <div className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 w-full max-w-5xl h-80 bg-gradient-to-b from-orange-500/[0.06] via-amber-400/[0.02] to-transparent blur-3xl -z-10 dark:from-orange-500/[0.04]" />
+
       {/* Mobile Search Bar (visible on phones and tablets) */}
       <div className="block lg:hidden mb-5">
         <div className="relative">
@@ -183,21 +213,23 @@ export default function HomePage() {
               key={offer.code}
               whileHover={{ y: -2 }}
               onClick={() => handleCopyCode(offer.code)}
-              className="bg-white dark:bg-[#16171e] rounded-xl p-3.5 border border-neutral-200/70 dark:border-neutral-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:border-primary/40 dark:hover:border-primary/50 hover:shadow-sm transition-all cursor-pointer flex items-center justify-between group"
+              className={`bg-white dark:bg-[#16171e] ${offer.bgGrad} rounded-2xl p-3.5 border ${offer.borderColor} shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-md transition-all cursor-pointer flex items-center justify-between group`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-orange-50 dark:bg-orange-950/40 text-primary flex items-center justify-center shrink-0">
+                <div className={`w-10 h-10 rounded-xl ${offer.iconBg} flex items-center justify-center shrink-0 shadow-sm`}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-neutral-900 dark:text-neutral-100">{offer.title}</h3>
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="text-xs font-bold text-neutral-900 dark:text-neutral-100">{offer.title}</h3>
+                  </div>
                   <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">{offer.desc}</p>
                 </div>
               </div>
               <div className="text-right shrink-0 ml-2">
-                <span className="inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 group-hover:bg-primary group-hover:text-white rounded border border-neutral-200 dark:border-neutral-700 transition-colors">
+                <span className={`inline-block text-[11px] font-mono font-bold px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 ${offer.pillColor} group-hover:text-white rounded border border-neutral-200 dark:border-neutral-700 transition-colors shadow-xs`}>
                   {copiedCode === offer.code ? 'Copied!' : offer.code}
                 </span>
               </div>
@@ -292,11 +324,12 @@ export default function HomePage() {
                         }}
                       />
                       {/* Dark bottom scrim */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent flex items-end px-3 pb-2">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent flex items-end px-3 pb-2.5">
                         {/* Integrated Swiggy Discount Overlay */}
                         {res.discount && (
-                          <span className="text-white font-black text-base md:text-lg uppercase tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] line-clamp-1">
-                            {res.discount}
+                          <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-orange-600/95 to-amber-600/95 text-white font-extrabold text-xs md:text-sm px-2.5 py-0.5 rounded-lg uppercase tracking-tight shadow-md backdrop-blur-xs border border-white/20">
+                            <span className="text-xs">🏷️</span>
+                            <span className="truncate">{res.discount}</span>
                           </span>
                         )}
                       </div>
@@ -310,16 +343,19 @@ export default function HomePage() {
                       </h3>
 
                       {/* Rating • Delivery Time • Distance */}
-                      <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-gray-800 dark:text-neutral-200 mt-0.5">
-                        <span className="inline-flex items-center justify-center w-4 h-4 md:w-4.5 md:h-4.5 rounded-full bg-emerald-600 text-white text-[10px] md:text-[11px] font-black shrink-0">
-                          ★
+                      <div className="flex items-center gap-1.5 text-xs md:text-sm font-bold text-gray-800 dark:text-neutral-200 mt-1">
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] md:text-[11px] font-black shrink-0 shadow-xs">
+                          <span>★</span>
+                          <span>{res.rating}</span>
                         </span>
-                        <span>{res.rating}</span>
-                        <span className="text-gray-400 dark:text-neutral-500 font-normal">•</span>
-                        <span>{res.deliveryTime}</span>
+                        <span className="text-gray-300 dark:text-neutral-700 font-normal">•</span>
+                        <span className="flex items-center text-amber-600 dark:text-amber-400 font-semibold text-xs md:text-sm">
+                          <span className="mr-0.5">⚡</span>
+                          {res.deliveryTime}
+                        </span>
                         {distanceStr && (
                           <>
-                            <span className="text-gray-400 dark:text-neutral-500 font-normal">•</span>
+                            <span className="text-gray-300 dark:text-neutral-700 font-normal">•</span>
                             <span className="text-gray-500 dark:text-neutral-400 font-normal text-xs">{distanceStr}</span>
                           </>
                         )}
