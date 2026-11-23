@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext.jsx';
 import { getHaversineDistance, getNumericDistance } from '../utils/distance.js';
@@ -82,7 +83,12 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 font-sans">
       {/* Hero Banner with Image */}
-      <div className="relative rounded-3xl overflow-hidden shadow-card mb-8 min-h-[320px] md:min-h-[360px]">
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        className="relative rounded-3xl overflow-hidden shadow-card mb-8 min-h-[320px] md:min-h-[360px]"
+      >
         <img
           src="/images/hero_banner.png"
           alt="Delicious food spread"
@@ -95,24 +101,28 @@ export default function HomePage() {
             <span>Delivering in 20-30 mins</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 max-w-2xl leading-[1.1] text-white">
-            Hungry? We've Got <span className="text-primary">You Covered.</span>
+            Craving good food? <span className="text-primary">We'll bring it over.</span>
           </h1>
           <p className="text-base md:text-lg text-slate-200 mb-6 max-w-xl font-light leading-relaxed">
-            Get the best food from top restaurants delivered to your doorstep in minutes.
+            Order from top local restaurants and get it hot at your door in 20 to 30 minutes.
           </p>
           <div className="flex items-center space-x-3">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={handleOrderNowClick}
-              className="bg-primary hover:bg-orange-600 text-white transition-all px-8 py-3.5 rounded-2xl text-xs font-bold w-fit shadow-lg hover:shadow-orange-500/20 active:scale-95 duration-200"
+              className="bg-primary hover:bg-orange-600 text-white transition-all px-8 py-3.5 rounded-2xl text-xs font-bold w-fit shadow-lg hover:shadow-orange-500/20 duration-200"
             >
-              Order Now
-            </button>
-            <a
+              Explore Restaurants
+            </motion.button>
+            <motion.a
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               href="/partner.html"
               className="bg-white bg-opacity-15 backdrop-blur-sm hover:bg-opacity-25 text-white transition-all px-6 py-3.5 rounded-2xl text-xs font-bold w-fit border border-white border-opacity-20 flex items-center space-x-1.5"
             >
               <span>Partner Portal</span>
-            </a>
+            </motion.a>
           </div>
 
           {/* Stats */}
@@ -129,7 +139,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Offers Section */}
       <div className="mb-8">
@@ -137,7 +147,7 @@ export default function HomePage() {
           <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zm-2 4h4M3 8h18v13H3V8z" />
           </svg>
-          <span>Today's Promo Campaigns</span>
+          <span>Special Offers</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
@@ -145,7 +155,12 @@ export default function HomePage() {
             { title: 'FREE Delivery', desc: 'On orders above ₹299', code: 'WELCOME20', bg: 'from-green-400 to-emerald-600' },
             { title: '₹100 Cashback', desc: 'Pay via UPI wallets', code: 'SUPER75', bg: 'from-purple-400 to-pink-500' },
           ].map((offer, idx) => (
-            <div key={idx} className={`bg-gradient-to-r ${offer.bg} rounded-2xl p-5 text-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer relative overflow-hidden group hover:-translate-y-0.5`}>
+            <motion.div
+              key={idx}
+              whileHover={{ y: -3, scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              className={`bg-gradient-to-r ${offer.bg} rounded-2xl p-5 text-white shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer relative overflow-hidden group`}
+            >
               <div className="absolute top-0 right-0 w-20 h-20 bg-white bg-opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
               <div className="flex items-start justify-between">
                 <div>
@@ -159,13 +174,19 @@ export default function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Zippli Express Delivery Premium Banner */}
-      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-slate-100 flex flex-col md:flex-row items-center justify-between mb-8 gap-6 overflow-hidden relative animate-fade-in">
+      {/* Zippli Express Delivery Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+        className="bg-white rounded-3xl p-6 md:p-8 shadow-card border border-slate-100 flex flex-col md:flex-row items-center justify-between mb-8 gap-6 overflow-hidden relative"
+      >
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary opacity-5 rounded-full translate-x-8 -translate-y-8"></div>
         <div className="flex items-center space-x-5 md:space-x-6 z-10">
           <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border border-slate-100 shadow-sm bg-slate-50 shrink-0 p-3 flex items-center justify-center">
@@ -178,10 +199,10 @@ export default function HomePage() {
               ⚡ Zippli Express
             </span>
             <h2 className="text-lg font-black text-slate-800 leading-tight">
-              Fresh Hot Meals Delivered Right to Your Table
+              Piping hot delivery, right on time
             </h2>
             <p className="text-xs text-slate-400 mt-1 max-w-lg font-medium">
-              Our signature packaging guarantees that your orders are packed using advanced thermal hygiene seals, keeping food piping hot from the kitchen to your doorstep.
+              Orders are packed in insulated thermal bags so food arrives kitchen-fresh and steaming hot at your door.
             </p>
           </div>
         </div>
@@ -189,10 +210,10 @@ export default function HomePage() {
           <svg className="w-6 h-6 text-primary mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="block text-[10px] font-black text-primary uppercase mt-1.5 tracking-wider">Super Fast</span>
+          <span className="block text-[10px] font-black text-primary uppercase mt-1.5 tracking-wider">Fast Dispatch</span>
           <span className="text-[9px] text-slate-400 mt-0.5 font-bold uppercase tracking-wider">Hot & Fresh</span>
         </div>
-      </div>
+      </motion.div>
 
       {/* Categories scroll section */}
       <div className="mb-6">
@@ -220,7 +241,7 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredRestaurants.map((res) => {
+          {filteredRestaurants.map((res, index) => {
             const distanceStr = getHaversineDistance(
               userLocation?.lat,
               userLocation?.lng,
@@ -228,11 +249,17 @@ export default function HomePage() {
               res.lng
             );
             return (
-              <Link
+              <motion.div
                 key={res.id}
-                to={`/restaurant/${res.id}`}
-                className="group bg-white rounded-3xl overflow-hidden shadow-card border border-slate-100/80 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.06)] flex flex-col"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.25) }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
               >
+                <Link
+                  to={`/restaurant/${res.id}`}
+                  className="group bg-white rounded-3xl overflow-hidden shadow-card border border-slate-100/80 transition-shadow duration-300 hover:shadow-[0_12px_24px_rgba(0,0,0,0.06)] flex flex-col h-full"
+                >
                 {/* Cover Image */}
                 <div className="h-48 relative overflow-hidden">
                   <img
@@ -311,8 +338,9 @@ export default function HomePage() {
                   </div>
                 </div>
               </Link>
-            );
-          })}
+            </motion.div>
+          );
+        })}
         </div>
       )}
     </div>
