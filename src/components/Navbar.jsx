@@ -106,16 +106,16 @@ export default function Navbar() {
           </span>
         </Link>
         
-        {/* Swiggy Address Selector */}
-        <div className="relative hidden md:block">
+        {/* Swiggy Address Selector (Mobile & Desktop) */}
+        <div className="relative">
           <button 
             onClick={() => setShowAddressDropdown(!showAddressDropdown)}
             className="flex items-center space-x-1.5 hover:text-primary transition-colors text-xs text-gray-700 py-1"
           >
-            <span className="font-bold text-gray-900 border-b-2 border-gray-900 hover:border-primary pb-0.5">
+            <span className="font-bold text-gray-900 border-b-2 border-gray-900 hover:border-primary pb-0.5 max-w-[100px] sm:max-w-[160px] truncate">
               {userLocation?.addressLabel || selectedAddress.split(',')[0]}
             </span>
-            <span className="text-gray-500 truncate max-w-[150px] font-normal">
+            <span className="text-gray-500 truncate max-w-[120px] font-normal hidden sm:inline">
               {(userLocation?.addressFullName || selectedAddress).split(',').slice(1).join(',').trim()}
             </span>
             <svg className="w-3.5 h-3.5 text-primary shrink-0 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">

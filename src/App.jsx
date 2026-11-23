@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { CartProvider } from './context/CartContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import Navbar from './components/Navbar.jsx';
+import MobileNav from './components/MobileNav.jsx';
 import Footer from './components/Footer.jsx';
 // Pages
 import HomePage from './pages/HomePage.jsx';
@@ -20,7 +21,7 @@ function App() {
         <CartProvider>
           <div className="min-h-screen bg-background flex flex-col font-sans">
             <Navbar />
-            <main className="flex-grow pt-20">
+            <main className="flex-grow pt-20 pb-16 md:pb-0">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/restaurant/:id" element={<RestaurantPage />} />
@@ -31,6 +32,7 @@ function App() {
               </Routes>
             </main>
             <Footer />
+            <MobileNav />
             <Toaster position="top-center" reverseOrder={false} />
           </div>
         </CartProvider>

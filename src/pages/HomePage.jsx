@@ -90,7 +90,23 @@ export default function HomePage() {
   const cityLabel = userLocation?.addressLabel || 'your area';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-6 font-sans">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 font-sans">
+      {/* Mobile Search Bar (visible on phones and tablets) */}
+      <div className="block lg:hidden mb-5">
+        <div className="relative">
+          <input
+            type="text"
+            value={searchVal}
+            onChange={(e) => setSearchVal(e.target.value)}
+            placeholder="Search for restaurants, dishes..."
+            className="w-full bg-white text-gray-800 pl-10 pr-4 py-3 rounded-2xl text-sm border border-gray-200 shadow-sm focus:border-primary focus:outline-none placeholder-gray-400 font-medium"
+          />
+          <svg className="absolute left-3.5 top-3.5 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+
       {/* 1. Swiggy "What's on your mind?" Cuisine Carousel */}
       <section className="mb-8">
         <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight mb-4">

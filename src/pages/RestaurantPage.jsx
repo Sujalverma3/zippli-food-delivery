@@ -708,6 +708,28 @@ export default function RestaurantPage() {
           </div>
         </div>
       )}
+      {/* Floating Bottom Cart Bar for Mobile View */}
+      {localCartItems.length > 0 && (
+        <div className="fixed bottom-16 inset-x-0 p-3 z-40 lg:hidden">
+          <Link
+            to="/cart"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl px-5 py-3 flex items-center justify-between shadow-xl font-bold transition-transform active:scale-[0.98]"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-xs bg-emerald-800/60 px-2 py-0.5 rounded-md font-bold">
+                {localCartItems.reduce((acc, i) => acc + i.quantity, 0)} {localCartItems.reduce((acc, i) => acc + i.quantity, 0) === 1 ? 'item' : 'items'}
+              </span>
+              <span className="text-sm font-extrabold">₹{cartTotal}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider">
+              <span>View Cart</span>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
