@@ -15,6 +15,7 @@ export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeSort, setActiveSort] = useState('relevance');
   const [onlyNearby, setOnlyNearby] = useState(true);
+  const [dietFilter, setDietFilter] = useState('all');
   const [copiedCode, setCopiedCode] = useState(null);
   const [searchParams] = useSearchParams();
   const [searchVal, setSearchVal] = useState(searchParams.get('search') || '');
@@ -57,7 +58,18 @@ export default function HomePage() {
         matchNearby = dist !== null && dist <= 50;
       }
 
-      return matchSearch && matchCategory && matchNearby;
+      let matchDiet = true;
+      if (dietFilter === 'veg') {
+        const text = (r.cuisine + ' ' + r.name).toLowerCase();
+        const hasVegSignals = /veg|healthy|south indian|dessert|bakery|salad|paneer/i.test(text);
+        const hasMeatSignals = /non-veg|chicken|bbq|mutton|kebab|fish|meat|wings/i.test(text);
+        matchDiet = hasVegSignals && !hasMeatSignals;
+      } else if (dietFilter === 'non-veg') {
+        const text = (r.cuisine + ' ' + r.name).toLowerCase();
+        matchDiet = /non-veg|chicken|bbq|mutton|kebab|fish|meat|wings|biryani|burger/i.test(text);
+      }
+
+      return matchSearch && matchCategory && matchNearby && matchDiet;
     })
     .sort((a, b) => {
       if (activeSort === 'rating') return b.rating - a.rating;
@@ -75,8 +87,45 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent"></div>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-6 font-sans animate-pulse">
+        {/* Skeleton Top Cuisine Carousel */}
+        <div className="mb-8">
+          <div className="h-6 w-48 bg-neutral-200 dark:bg-neutral-800 rounded-lg mb-4"></div>
+          <div className="flex items-center space-x-6 md:space-x-8 overflow-x-auto py-3 no-scrollbar">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div key={i} className="flex flex-col items-center shrink-0">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-neutral-200 dark:bg-neutral-800"></div>
+                <div className="w-12 h-3 bg-neutral-200 dark:bg-neutral-800 rounded mt-2"></div>
+              </div>
+            ))}
+          </div>
+          <div className="border-b border-neutral-100 dark:border-neutral-800 mt-6"></div>
+        </div>
+
+        {/* Skeleton Deals */}
+        <div className="mb-10">
+          <div className="h-5 w-32 bg-neutral-200 dark:bg-neutral-800 rounded mb-3.5"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-20 bg-neutral-100 dark:bg-neutral-850 rounded-xl border border-neutral-200/60 dark:border-neutral-800"></div>
+            ))}
+          </div>
+        </div>
+
+        {/* Skeleton Restaurant Cards */}
+        <div>
+          <div className="h-6 w-64 bg-neutral-200 dark:bg-neutral-800 rounded mb-6"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-8">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="space-y-3">
+                <div className="aspect-[16/10] bg-neutral-200 dark:bg-neutral-800 rounded-2xl"></div>
+                <div className="h-4 w-3/4 bg-neutral-200 dark:bg-neutral-800 rounded"></div>
+                <div className="h-3 w-1/2 bg-neutral-200 dark:bg-neutral-800 rounded"></div>
+                <div className="h-3 w-2/3 bg-neutral-200 dark:bg-neutral-800 rounded"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -167,6 +216,8 @@ export default function HomePage() {
           setActiveSort={setActiveSort}
           onlyNearby={onlyNearby}
           setOnlyNearby={setOnlyNearby}
+          dietFilter={dietFilter}
+          setDietFilter={setDietFilter}
         />
 
         {/* Restaurant Grid */}

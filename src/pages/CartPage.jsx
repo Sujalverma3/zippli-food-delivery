@@ -5,10 +5,30 @@ import { useAuth } from '../context/AuthContext.jsx';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
+const UPSELL_ITEMS = [
+  { id: 'upsell-fries', name: 'Crispy French Fries', price: 69, image: '/images/burger.png' },
+  { id: 'upsell-coke', name: 'Chilled Soda Beverage', price: 40, image: '/images/healthy.png' },
+  { id: 'upsell-jamun', name: 'Gulab Jamun (2 pcs)', price: 55, image: '/images/desserts.png' },
+  { id: 'upsell-chutney', name: 'Spiced Mint Chutney', price: 25, image: '/images/south_indian.png' },
+];
+
 export default function CartPage() {
-  const { cart, updateQty, cartTotal, clearCart } = useCart();
+  const { cart, updateQty, cartTotal, clearCart, addItem } = useCart();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  const handleAddUpsell = (addon) => {
+    const restId = cart[0]?.restaurantId || 'general';
+    const restName = cart[0]?.restaurantName || 'Zippli Partner';
+    addItem({
+      id: addon.id,
+      name: addon.name,
+      price: addon.price,
+      restaurantId: restId,
+      restaurantName: restName
+    });
+    toast.success(`Added ${addon.name} to cart!`);
+  };
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -144,6 +164,13 @@ export default function CartPage() {
       const res = await axios.post('/api/orders', orderData);
       const createdOrder = res.data;
       
+      localStorage.setItem('zippli_active_order', JSON.stringify({
+        orderId: createdOrder.orderId,
+        restaurant: orderData.restaurant,
+        totalAmount: orderData.totalAmount,
+        placedAt: Date.now()
+      }));
+
       toast.success('Order Placed Successfully!');
       clearCart();
       setShowPaymentModal(false);
@@ -405,6 +432,42 @@ export default function CartPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* "Complete Your Meal" (Upsell Carousel) */}
+          <div className="bg-white dark:bg-[#16171e] rounded-2xl p-5 shadow-card border border-gray-100 dark:border-neutral-800">
+            <div className="pb-3 mb-3 border-b border-gray-100 dark:border-neutral-800">
+              <h3 className="text-xs font-bold text-gray-900 dark:text-neutral-100 uppercase tracking-wider flex items-center gap-1.5">
+                <span>✨ Complete Your Meal</span>
+              </h3>
+              <p className="text-[11px] text-gray-500 dark:text-neutral-400 mt-0.5">Popular add-ons customers frequently pair</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              {UPSELL_ITEMS.map((addon) => {
+                const alreadyInCart = cart.some(i => i.id === addon.id);
+                return (
+                  <div
+                    key={addon.id}
+                    className="p-2.5 rounded-xl border border-gray-150 dark:border-neutral-800/80 bg-gray-50/70 dark:bg-neutral-850/60 flex flex-col justify-between"
+                  >
+                    <div className="flex items-center gap-2">
+                      <img src={addon.image} alt={addon.name} className="w-8 h-8 rounded-lg object-cover shrink-0" />
+                      <div className="min-w-0">
+                        <h4 className="text-[11px] font-bold text-gray-900 dark:text-neutral-200 truncate">{addon.name}</h4>
+                        <p className="text-[10px] font-bold text-primary">₹{addon.price}</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleAddUpsell(addon)}
+                      className="mt-2 w-full py-1 text-[10px] font-bold uppercase rounded-lg border border-primary/40 text-primary hover:bg-primary hover:text-white transition-colors duration-150 text-center"
+                    >
+                      {alreadyInCart ? '+ Add More' : '+ ADD'}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

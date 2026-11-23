@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import Navbar from './components/Navbar.jsx';
 import MobileNav from './components/MobileNav.jsx';
 import Footer from './components/Footer.jsx';
+import LiveOrderPill from './components/LiveOrderPill.jsx';
 // Pages
 import HomePage from './pages/HomePage.jsx';
 import RestaurantPage from './pages/RestaurantPage.jsx';
@@ -33,6 +34,7 @@ function App() {
                   <Route path="/profile" element={<ProfilePage />} />
                 </Routes>
               </main>
+              <LiveOrderPill />
               <Footer />
               <MobileNav />
               <Toaster position="top-center" reverseOrder={false} />
